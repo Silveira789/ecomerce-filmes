@@ -1,0 +1,269 @@
+Dados
+'========Produto========='
+Filme
+- genero: String
+- duracao: int
+- AnoLancamento: String
+- direcao:  String
+- TituloOriginal: Stirng
+
+Produto
+- id: Long
+- nome: String
+- descricao: String
+- preco: double
+- qtdNoEstoque: Integer
+
+GeneroFilme - enum
+    ACAO,
+    AVENTURA,
+    COMEDIA,
+    DRAMA,
+    FICCAO_CIENTIFICA,
+    ROMANCE,
+    SUSPENSE,
+    DOCUMENTARIO,
+    FANTASIA,
+    MUSICAL,
+    THRILLER,
+    FILME_DE_POLICIAL
+    TERROR;
+'========Usuario========='
+Usuario
+-id: Long
+-login: String
+-Senha: String
+
+Cliente
+-nome: String
+-cpf: String
+-email: String
+-listaTelefone: List<String>
+
+Endereço
+-id:Long
+-nome:String
+-logradouro: String
+-bairro:String
+-complemento:String
+-cep:String
+-cidade:String
+-estado:String
+
+Funcionario/Admin
+-nome:String
+-cpf:String
+-email:String
+-matricula:String
+-telefone:String
+
+perfil - Enum
+-USER;
+-ADMIN;
+
+-id: Interger
+label: String
+
+'========Venda========='
+Pedido
+-id:Long
+-data: Date
+-totalCompra:Double
+
+ItemPedido
+-id: Long
+-quantidade: Integer
+-preco: Double
+
+'========Pagamento========='
+Pagamento
+-id: Long
+-confircacaoDePagamento: Boolean
+-dataConfirmacaoDePagamento:LocalDate
+
+FormaDePagamento - Enum
+CREDITO,
+DEBITO,
+CREDITO E DEBITO;
+
+-id: interger
+-label: String
+
+Cartao
+-id:long
+-banco:String
+-numero: String
+-dataVencimento:LocalDate
+-codVerificacao: String
+-nomeTitular:String
+
+TipoCartao - Enum
+CREDITO,
+DEBITO,
+CREDITO E DEBITO;
+
+-id: Interger
+-label: String
+
+BandeiraCartao
+VISA,
+ELO,
+MASTERCARD;
+
+id:Interger
+laber:String
+
+===================================================
+@startuml
+'========Produto========='
+class Filme {
+    - genero: String
+    - duracao: int
+    - AnoLancamento: String
+    - direcao: String
+    - TituloOriginal: String
+}
+
+class Produto {
+    - id: Long
+    - nome: String
+    - descricao: String
+    - preco: double
+    - qtdNoEstoque: Integer
+}
+
+enum GeneroFilme {
+    ACAO,
+    AVENTURA,
+    COMEDIA,
+    DRAMA,
+    FICCAO_CIENTIFICA,
+    ROMANCE, SUSPENSE,
+    DOCUMENTARIO, 
+    FANTASIA, 
+    MUSICAL, 
+    THRILLER, 
+    FILME_DE_POLICIAL,
+    TERROR;
+
+   - id: Integer
+   - label: String
+}
+
+'========Usuario========='
+class Usuario {
+    - id: Long
+    - login: String
+    - Senha: String
+}
+
+class Cliente {
+    - nome: String
+    - cpf: String
+    - email: String
+    - listaTelefone: List<String>
+}
+
+class Endereco {
+    - id: Long
+    - nome: String
+    - logradouro: String
+    - bairro: String
+    - complemento: String
+    - cep: String
+    - cidade: String
+    - estado: String
+}
+
+
+enum Perfil {
+    USER,
+    ADMIN
+
+   - id: Integer
+   - label: String
+}
+
+'========Venda========='
+class Pedido {
+    - id: Long
+    - data: Date
+    - totalCompra: Double
+}
+
+class ItemPedido {
+    - id: Long
+    - quantidade: Integer
+    - preco: Double
+}
+
+'========Pagamento========='
+class Pagamento {
+    - id: Long
+    - confirmacaoDePagamento: Boolean
+    - dataConfirmacaoDePagamento: LocalDate
+}
+
+enum FormaDePagamento {
+    CREDITO,
+    DEBITO, 
+    CREDITO_E_DEBITO
+
+   - id: Integer
+   - label: String
+}
+
+class Cartao {
+    - id: Long
+    - banco: String
+    - numero: String
+    - dataVencimento: LocalDate
+    - codVerificacao: String
+    - nomeTitular: String
+}
+
+enum TipoCartao {
+    CREDITO, 
+    DEBITO, 
+    CREDITO_E_DEBITO
+
+   - id: Integer
+   - label: String
+}
+
+enum BandeiraCartao {
+    VISA, 
+    ELO,
+    MASTERCARD;
+}
+
+
+
+'========Relacionamentos========='
+
+Pedido "1" *--> "1" Pagamento
+Pedido "1" --> "*" ItemPedido
+Pedido "*" o--> "1" Usuario
+
+Pagamento "1" o--> "1" Cartao
+Pagamento "1" *--> "1" FormaDePagamento
+
+Cartao "1" *--> "1" TipoCartao
+Cartao "1" *--> "1" BandeiraCartao
+
+ItemPedido "*" --> "1" Filme
+
+Usuario "1" *--> "1" Perfil
+Cliente "1" o--> "*" Endereco
+Cliente "1" o--> "1" Usuario
+Cliente "1" o--> "*" Cartao
+
+Filme --|> Produto
+Filme "1" o--> "*" GeneroFilme
+
+
+
+
+
+
+@enduml
