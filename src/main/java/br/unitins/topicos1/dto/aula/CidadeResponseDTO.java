@@ -1,6 +1,6 @@
 package br.unitins.topicos1.dto.aula;
 
-import br.unitins.topicos1.model.Cidade;
+import br.unitins.topicos1.model.aula.Cidade;
 
 public record CidadeResponseDTO(
     Long id,

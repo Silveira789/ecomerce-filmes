@@ -2,7 +2,7 @@ package br.unitins.topicos1.resource;
 
 import java.util.List;
 
-import br.unitins.topicos1.model.Pessoa;
+import br.unitins.topicos1.model.aula.Pessoa;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;

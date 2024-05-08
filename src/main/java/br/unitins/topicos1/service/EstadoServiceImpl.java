@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.unitins.topicos1.dto.aula.EstadoDTO;
 import br.unitins.topicos1.dto.aula.EstadoResponseDTO;
-import br.unitins.topicos1.model.Estado;
+import br.unitins.topicos1.model.aula.Estado;
 import br.unitins.topicos1.repository.EstadoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

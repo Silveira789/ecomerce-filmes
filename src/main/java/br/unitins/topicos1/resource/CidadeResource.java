@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.unitins.topicos1.dto.aula.CidadeDTO;
 import br.unitins.topicos1.dto.aula.CidadeResponseDTO;
-import br.unitins.topicos1.model.Cidade;
+import br.unitins.topicos1.model.aula.Cidade;
 import br.unitins.topicos1.repository.CidadeRepository;
 import br.unitins.topicos1.repository.EstadoRepository;
 import jakarta.inject.Inject;

@@ -1,6 +1,6 @@
 package br.unitins.topicos1.dto.aula;
 
-import br.unitins.topicos1.model.Estado;
+import br.unitins.topicos1.model.aula.Estado;
 
 public record EstadoResponseDTO(
     Long id,

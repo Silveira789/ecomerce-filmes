@@ -1,15 +1,16 @@
-package br.unitins.topicos1.model;
+package br.unitins.topicos1.model.aula;
+
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;;
 
 @Entity
-public class Cidade {
+public class Estado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +19,9 @@ public class Cidade {
     @Column(length = 60, nullable = false)
     private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "id_estado")
-    private Estado estado;
+    @Column(length = 2, nullable = false)
+    private String sigla;
+
 
     public Long getId() {
         return id;
@@ -38,11 +39,12 @@ public class Cidade {
         this.nome = nome;
     }
 
-    public Estado getEstado() {
-        return estado;
+    public String getSigla() {
+        return sigla;
     }
 
-    public void setEstado(Estado estado) {
-        this.estado = estado;
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
     }
+
 }
