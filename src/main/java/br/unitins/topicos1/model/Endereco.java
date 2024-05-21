@@ -14,7 +14,7 @@ public class Endereco extends DefaultEntity{
 
     private String cep;
     private String cidade;
-    private String ;
+    private String estado;
 
 
 
