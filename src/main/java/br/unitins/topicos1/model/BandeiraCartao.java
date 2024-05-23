@@ -2,18 +2,33 @@ package br.unitins.topicos1.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.Getter;
+
+@Getter
 @JsonFormat()
 public enum BandeiraCartao{
 
-    // private Integer id;
-    // private String label;
+    VISA(1, "Visa"),
+    MASTERCARD(2, "Mastercard"),
+    ELO(3, "Elo");
 
-    // BandeiraCartao(Integer id, String label){
-    //     this.id = id;
-    //     this.label = label;
+    private Integer id;
+    private String label;
 
+    BandeiraCartao(Integer id, String label) {
+        this.id = id;
+        this.label = label;
+    }
 
-    // }
+    public static BandeiraCartao valueOf(Integer id) throws IllegalArgumentException {
+        if (id == null)
+            return null;
+        for (BandeiraCartao bc : BandeiraCartao.values()) {
+            if (bc.getId().equals(id))
+                return bc;
+        }
+        throw new IllegalArgumentException("Nenhum TipoPagamento encontrado com o ID: " + id);
+    }
 
 
 }

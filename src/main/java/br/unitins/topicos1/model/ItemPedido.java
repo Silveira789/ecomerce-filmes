@@ -13,7 +13,8 @@ public class ItemPedido extends DefaultEntity{
     private Double preco;
 
     
-
+    //private Filme filme
+    
     // private Pedido Pedido
 
 }
