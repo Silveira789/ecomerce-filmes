@@ -1,4 +1,4 @@
-package br.unitins.topicos1.dto.usuario;
+package unitins.topicos1.dto.usuario;
 
 public record AuthUsuarioDTO(
 
