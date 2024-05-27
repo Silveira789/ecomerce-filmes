@@ -1,4 +1,4 @@
-package br.unitins.topicos1.repository;
+package br.unitins.topicos1.repository.aula;
 
 import java.util.List;
 

@@ -18,7 +18,7 @@ public class Pedido extends DefaultEntity{
 
     private Usuario usuario;
 
-    private List<ItemPedido> itens;
+    // private List<ItemPedido> itens;
 
     private Double totalPedido;
 

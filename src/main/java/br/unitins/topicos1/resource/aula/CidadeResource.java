@@ -1,12 +1,12 @@
-package br.unitins.topicos1.resource;
+package br.unitins.topicos1.resource.aula;
 
 import java.util.List;
 
 import br.unitins.topicos1.dto.aula.CidadeDTO;
 import br.unitins.topicos1.dto.aula.CidadeResponseDTO;
 import br.unitins.topicos1.model.aula.Cidade;
-import br.unitins.topicos1.repository.CidadeRepository;
-import br.unitins.topicos1.repository.EstadoRepository;
+import br.unitins.topicos1.repository.aula.CidadeRepository;
+import br.unitins.topicos1.repository.aula.EstadoRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;

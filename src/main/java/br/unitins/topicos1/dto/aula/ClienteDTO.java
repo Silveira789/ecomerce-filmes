@@ -1,4 +1,4 @@
-package br.unitins.topicos1.dto.cliente;
+package br.unitins.topicos1.dto.aula;
 
 import java.util.List;
 

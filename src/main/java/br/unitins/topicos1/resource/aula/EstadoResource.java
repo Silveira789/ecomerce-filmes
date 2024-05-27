@@ -1,4 +1,4 @@
-package br.unitins.topicos1.resource;
+package br.unitins.topicos1.resource.aula;
 
 import java.util.List;
 
