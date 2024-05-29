@@ -1,7 +1,7 @@
-package unitins.tp1.dto.endereco;
+package br.unitins.topicos1.dto.endereco;
 
+import br.unitins.topicos1.model.Endereco;
 import jakarta.validation.constraints.NotBlank;
-import unitins.tp1.model.Endereco;
 
 public record EnderecoDTO(
         @NotBlank(message = "insira o nome corretamente")

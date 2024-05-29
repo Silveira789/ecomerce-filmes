@@ -1,11 +1,12 @@
-package unitins.tp1.dto.cliente;
+package br.unitins.topicos1.dto.cliente;
 
 import java.util.List;
 
-import unitins.tp1.dto.cartao.CartaoResponseDTO;
-import unitins.tp1.dto.endereco.EnderecoResponseDTO;
-import unitins.tp1.dto.usuario.UsuarioResponseDTO;
-import unitins.tp1.model.Cliente;
+import br.unitins.topicos1.dto.cartao.CartaoResponseDTO;
+import br.unitins.topicos1.dto.endereco.EnderecoResponseDTO;
+import br.unitins.topicos1.dto.usuario.UsuarioResponseDTO;
+import br.unitins.topicos1.model.Cliente;
+
 
 public record ClienteResponseDTO(
                 Long id,

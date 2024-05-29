@@ -1,8 +1,8 @@
-package unitins.tp1.dto.funcionario;
+package br.unitins.topicos1.dto.funcionario;
 
-import unitins.tp1.dto.endereco.EnderecoResponseDTO;
-import unitins.tp1.dto.usuario.UsuarioResponseDTO;
-import unitins.tp1.model.Funcionario;
+import br.unitins.topicos1.dto.endereco.EnderecoResponseDTO;
+import br.unitins.topicos1.dto.usuario.UsuarioResponseDTO;
+import br.unitins.topicos1.model.Funcionario;
 
 public record FuncionarioResponseDTO(
             Long id,

@@ -1,6 +1,6 @@
-package unitins.tp1.dto.endereco;
+package br.unitins.topicos1.dto.endereco;
 
-import unitins.tp1.model.Endereco;
+import br.unitins.topicos1.model.Endereco;
 
 public record EnderecoResponseDTO(
                 Long id,

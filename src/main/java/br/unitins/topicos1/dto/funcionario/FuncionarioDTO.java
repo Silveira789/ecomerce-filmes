@@ -1,4 +1,4 @@
-package unitins.tp1.dto.funcionario;
+package br.unitins.topicos1.dto.funcionario;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

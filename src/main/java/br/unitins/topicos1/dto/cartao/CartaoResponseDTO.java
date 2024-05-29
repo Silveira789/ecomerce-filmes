@@ -1,10 +1,12 @@
-package unitins.tp1.dto.cartao;
+package br.unitins.topicos1.dto.cartao;
 
 import java.time.LocalDate;
 
-import unitins.tp1.model.BandeiraCartao;
-import unitins.tp1.model.Cartao;
-import unitins.tp1.model.TipoCartao;
+import br.unitins.topicos1.model.BandeiraCartao;
+import br.unitins.topicos1.model.Cartao;
+import br.unitins.topicos1.model.TipoCartao;
+
+
 
 public record CartaoResponseDTO(
         Long id,

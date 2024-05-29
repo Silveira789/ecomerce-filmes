@@ -1,12 +1,13 @@
-package unitins.tp1.dto.cliente;
+package br.unitins.topicos1.dto.cliente;
 
 import java.util.List;
 
+import br.unitins.topicos1.dto.cartao.CartaoDTO;
+import br.unitins.topicos1.dto.endereco.EnderecoDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import unitins.tp1.dto.cartao.CartaoDTO;
-import unitins.tp1.dto.endereco.EnderecoDTO;
+
 
 public record ClienteDTO(
         @NotBlank(message = "O campo nome não pode ficar em branco") 
