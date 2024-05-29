@@ -1,4 +1,4 @@
-package br.unitins.topicos1.service;
+package br.unitins.topicos1.service.aula;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.unitins.topicos1.dto.aula.EstadoDTO;
 import br.unitins.topicos1.dto.aula.EstadoResponseDTO;
-import br.unitins.topicos1.service.EstadoService;
+import br.unitins.topicos1.service.aula.EstadoService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
