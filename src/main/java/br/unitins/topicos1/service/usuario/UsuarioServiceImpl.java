@@ -33,7 +33,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioResponseDTO insert(UsuarioDTO dto) {
 
         if (repository.findByLogin(dto.login()) != null) {
-            throw new ValidationException("login", "Login já existe.");
+            throw new ValidationException("Login");
+            //new ValidationException("login", "Login já existe.")
 
         }
         Usuario novoUsuario = new Usuario();

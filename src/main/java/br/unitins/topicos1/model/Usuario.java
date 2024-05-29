@@ -12,6 +12,6 @@ public class Usuario extends DefaultEntity {
     private String login;
     private String senha;
 
-    // private Perfil perfil;
+    private Perfil perfil;
 
 }

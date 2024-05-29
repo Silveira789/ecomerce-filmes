@@ -1,7 +1,14 @@
 package br.unitins.topicos1.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@Entity
 public class Endereco extends DefaultEntity{
 
     @Column(length = 60)

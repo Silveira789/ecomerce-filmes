@@ -4,11 +4,17 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Entity
 public class Cliente extends DefaultEntity{
 
    @Column(length = 60)
@@ -39,11 +45,5 @@ public class Cliente extends DefaultEntity{
     private Usuario usuario;
     
 
-
-
-
-
-
-    
 
 }

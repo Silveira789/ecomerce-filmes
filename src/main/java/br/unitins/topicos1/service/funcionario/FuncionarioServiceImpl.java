@@ -1,4 +1,4 @@
-package br.unitins.topicos1.service.funcionario
+package br.unitins.topicos1.service.funcionario;
 
 import java.util.List;
 
