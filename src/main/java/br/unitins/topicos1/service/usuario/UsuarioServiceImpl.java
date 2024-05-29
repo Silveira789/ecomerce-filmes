@@ -6,6 +6,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import br.unitins.topicos1.dto.usuario.UsuarioDTO;
 import br.unitins.topicos1.dto.usuario.UsuarioResponseDTO;
+import br.unitins.topicos1.model.Perfil;
 import br.unitins.topicos1.model.Usuario;
 import br.unitins.topicos1.repository.UsuarioRepository;
 import br.unitins.topicos1.service.hash.HashService;
@@ -33,7 +34,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioResponseDTO insert(UsuarioDTO dto) {
 
         if (repository.findByLogin(dto.login()) != null) {
-            throw new ValidationException("Login");
+            throw new ValidationException();
             //new ValidationException("login", "Login já existe.")
 
         }
