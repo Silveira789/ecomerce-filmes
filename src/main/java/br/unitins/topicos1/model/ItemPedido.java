@@ -1,6 +1,8 @@
 package br.unitins.topicos1.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,9 +14,12 @@ public class ItemPedido extends DefaultEntity{
     private Integer quantidade;
     private Double preco;
 
-    
-    //private Filme filme
-    
-    // private Pedido Pedido
+    @ManyToOne
+    @JoinColumn(name = "id_filme")
+    private Filme filme;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pedido")
+    private Pedido pedido;
 
 }
