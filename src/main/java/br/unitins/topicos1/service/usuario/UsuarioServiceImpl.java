@@ -10,10 +10,10 @@ import br.unitins.topicos1.model.Perfil;
 import br.unitins.topicos1.model.Usuario;
 import br.unitins.topicos1.repository.UsuarioRepository;
 import br.unitins.topicos1.service.hash.HashService;
+import br.unitins.topicos1.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.ValidationException;
 import io.quarkus.security.ForbiddenException;
 import jakarta.ws.rs.NotFoundException;
 
@@ -34,7 +34,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioResponseDTO insert(UsuarioDTO dto) {
 
         if (repository.findByLogin(dto.login()) != null) {
-            throw new ValidationException();
+            throw new ValidationException("login", "Login já existe");
             //new ValidationException("login", "Login já existe.")
 
         }

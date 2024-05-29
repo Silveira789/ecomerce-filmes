@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 
-import br.unitins.topicos1.dto.aula.ClienteDTO;
+import br.unitins.topicos1.dto.cliente.ClienteDTO;
 import br.unitins.topicos1.dto.cliente.ClienteResponseDTO;
 import br.unitins.topicos1.service.cliente.ClienteService;
 import br.unitins.topicos1.service.endereco.EnderecoServiceImpl;

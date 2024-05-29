@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.unitins.topicos1.dto.aula.ClienteDTO;
 import br.unitins.topicos1.dto.cartao.CartaoDTO;
+import br.unitins.topicos1.dto.cliente.ClienteDTO;
 import br.unitins.topicos1.dto.cliente.ClienteResponseDTO;
 import br.unitins.topicos1.dto.endereco.EnderecoDTO;
+import br.unitins.topicos1.model.BandeiraCartao;
 import br.unitins.topicos1.model.Cartao;
 import br.unitins.topicos1.model.Cliente;
 import br.unitins.topicos1.model.Endereco;
+import br.unitins.topicos1.model.TipoCartao;
 import br.unitins.topicos1.model.Usuario;
 import br.unitins.topicos1.repository.CartaoRepository;
 import br.unitins.topicos1.repository.ClienteRepository;

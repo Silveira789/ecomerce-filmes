@@ -31,7 +31,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     @Transactional
     public FuncionarioResponseDTO insert(FuncionarioDTO dto) {
-        FuncionarioDTO insertFuncionario = new Funcionario();
+        Funcionario insertFuncionario = new Funcionario();
         insertFuncionario.setNome(dto.nome());
         insertFuncionario.setCpf(dto.cpf());
         insertFuncionario.setEmail(dto.email());

@@ -2,7 +2,7 @@ package br.unitins.topicos1.service.cliente;
 
 import java.util.List;
 
-import br.unitins.topicos1.dto.aula.ClienteDTO;
+import br.unitins.topicos1.dto.cliente.ClienteDTO;
 import br.unitins.topicos1.dto.cliente.ClienteResponseDTO;
 
 
