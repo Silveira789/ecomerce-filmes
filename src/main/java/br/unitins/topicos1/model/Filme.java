@@ -22,8 +22,7 @@ public class Filme extends Produto{
     @Column(length = 60)
     private String TituloOriginal;
     
-    @Column(name = "tipo_filme")
-    TipoFilme tipoFilme;
+
 
 
 }

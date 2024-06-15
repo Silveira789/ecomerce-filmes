@@ -13,7 +13,6 @@ public record ClienteResponseDTO(
                 String nome,
                 String cpf,
                 String email,
-                String numeroRegistro_posse_porte,
                 List<String> listaTelefones,
                 List<CartaoResponseDTO> listaCartoes,
                 List<EnderecoResponseDTO> enderecos,
@@ -25,7 +24,6 @@ public record ClienteResponseDTO(
                                 cliente.getNome(),
                                 cliente.getCpf(),
                                 cliente.getEmail(),
-                                cliente.getNumeroRegistro_posse_porte(),
                                 cliente.getListaTelefones().stream()
                                                 .map(t -> String.valueOf(t)).toList(),
                                 cliente.getListaCartoes().stream()
