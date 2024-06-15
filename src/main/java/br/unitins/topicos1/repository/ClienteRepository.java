@@ -12,7 +12,4 @@ public class ClienteRepository implements PanacheRepository<Cliente> {
         return find("UPPER(nome) LIKE UPPER(?1) ", "%" + nome + "%").list();
     }
 
-    public List<Cliente> findByEnderecoId(Long enderecoId) {
-        return find("endereco.id = ?1", enderecoId).list();
-    }
 }

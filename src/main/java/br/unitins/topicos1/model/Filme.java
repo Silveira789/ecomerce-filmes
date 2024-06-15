@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "Filme")
+@Table(name = "filme")
 public class Filme extends Produto{
 
     @Column(length = 60)
