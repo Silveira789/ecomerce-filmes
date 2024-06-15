@@ -37,13 +37,13 @@ public class UsuarioLogadoResource {
     @Inject
     UsuarioService usuarioService;
 
-    private static final Logger LOG = Logger.getLogger(String.valueOf(UsuarioLogadoResource.class));
+    
 
     @GET
     @RolesAllowed({ "User", "Admin" })
     public Response getUsuario() {
 
-        // Obtendo o login pelo token jwt
+        
         String login = jwt.getSubject();
         Log.info("Pegando o usuario logado string: " + login);
         Log.info("Pegando o usuário logado");

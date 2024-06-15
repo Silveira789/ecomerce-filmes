@@ -37,8 +37,6 @@ public class ClienteResource {
     @Inject
     EnderecoServiceImpl enderecoImpl;
 
-    private static final Logger LOG = Logger.getLogger(ClienteResource.class);
-
     @POST
     public Response insert(@Valid ClienteDTO dto){
         Log.info("Inserindo um cliente.");

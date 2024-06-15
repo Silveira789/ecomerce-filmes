@@ -5,7 +5,9 @@
 -- insert into myentity (id, field) values(3, 'field-3');
 -- alter sequence myentity_seq restart with 4;
 
-INSERT INTO endereco(numero, cep, cidade, estado, logradouro, nome, bairro, complemento)
+INSERT INTO endereco(
+    numero, cep, cidade, estado, logradouro, nome, bairro, complemento
+)
 VALUES 
     (123, '77000-000', 'Palmas', 'TO', 'Rua das Flores', 'Casa Azul', 'Centro', 'kitnet 4'),
     (259, '77001-001', 'Gurupi', 'TO', 'Avenida dos Bandeirantes', 'Casa Verde', 'Jardim Bela Vista', 'Esquina com a Rua Principal'),
@@ -47,34 +49,26 @@ VALUES
     ('789012', '222.222.222-22', '987654321', 'Fernanda', 'fernanda@example.com');
 
 INSERT INTO usuario (perfil, login, senha)
-VALUES 
+VALUES
     (1, 'cliente_guilherme', 'senha_cliente_guilherme'),
     (1, 'cliente_joao', 'senha_cliente_joao');
 
 INSERT INTO usuario (perfil, login, senha)
 VALUES 
--- senha_cliente_Guilherme
-    (1, 'cliente_Guilherme', '/GOjHgpptfKVaR92/cXMp7sJi0raFpcUWzVNZj5jjwjx0Z/oi19lZx6/v+f6nOpnnYLb9fg9vGw8pUWW08ekUw=='),
--- senha_cliente_joao
-    (1, 'cliente_joao', 'tHg5Av764hOiw2peQgpDxMBsweO2HAsg4znQ5kxtcNMz/vPhKldRslxOL53tWghnqAQzna1E80x6CkNJbLT/kQ=='),
--- senha_cliente_mauro
-    (1, 'cliente_mauro', 'a55M/kc9MqJFbtr5FGF6Ru8LZSwm36pYubnZZMvyox3Tyg8wOt7NZEDKUAIqr/NFejO6r8R+eUj0NvLLlgyl2Q=='),
--- senha_cliente_heitor
-    (1, 'cliente_heitor', 'bbkoG72xCIeM+5TONI15VERApwynQf256JHHvX6bkAve00r43+cXaOOVLBYk/Q3xnnjce/7/jsvSaTOHB8RadQ=='),
--- senha_cliente_henrique
-    (1, 'cliente_henrique', 'VobPCVa6t0EWSzXmvjNz/1iyKtcnISau1orzafq2UZEflPtvY9IjE/XCSg4Eccw/ifM14KsdoqWy+ag1r0OWFg=='),
--- senha_cliente_tales
-    (1, 'cliente_tales', 'dsBjbU2BWnA/oQtxfZ7WLv3/Wdb4vRRb+YzXqHw+qJMuZ3rUoZKX0nWOvsp+r12ZZnhNriIxNsrIS/L2ROm1Ag=='),
--- senha_cliente_juliana
-    (1, 'cliente_juliana', 'gQvX0a7+KxRYbi5K/1hDHzq32iNHUZHwYkF2ok22XL6MJ2SvWLZlduiM8D4UZdP57jvpyU89CSiFKinzIjXw1g=='),
--- senha_cliente_caroline
-    (1, 'cliente_caroline', 'pzn74eUzJBP32jVsBmOpL50OTrZVgI9VBF7jKLXKKkAsGRfpqnaKblr696yAzh/1ALEyuVAkmOWVyXZzDGu+SQ=='),
--- senha_cliente_fernanda
-    (1, 'cliente_fernanda', 'GJT+Wolwvp3TaibJtfTCixQ6mXbWOH6Y5M3FWOYCN0Twh+kdjIn5wSD0eVKjqQbhdiue9w8mRPRgbquvOBp3fw=='),
+(1, 'cliente_Guilherme', 'iI7lNRDd2XHaEHJdEqWfv/+Yg11T/nMHREEPt9ID2Bf3U9xYqq2Vfedyz+YZsTfXIfV13Sl4khIsP9kSF5JXIg=='),
+(1, 'cliente_joao', '0CCUdVl6aTfE5XJzGrP2OAKnoXFJUBUQVouCYz1ebLjNIK4CHbXOHEgpnePX/FBbXmIeWPkQcSbn1hH0g8zqmg=='),
+(1, 'cliente_mauro', 'MDJWphtfdXwlTa9XBXWObkLFpsB2X6bBgzJfdHxR527PdntyvQr34OkxsqTJyCOST5+p6UoGW5VK1YlcEpL2yA=='),
+(1, 'cliente_heitor', 'bbkoG72xCIeM+5TONI15VERApwynQf256JHHvX6bkAve00r43+cXaOOVLBYk/Q3xnnjce/7/jsvSaTOHB8RadQ=='),
+(1, 'cliente_henrique', 'VobPCVa6t0EWSzXmvjNz/1iyKtcnISau1orzafq2UZEflPtvY9IjE/XCSg4Eccw/ifM14KsdoqWy+ag1r0OWFg=='),
+(1, 'cliente_tales', 'p8ItX6rwwJidND1MpqD3NKUf9RhkTfpPdm1wDSmRo7OCwriDXagTf6l31P7quFczVAyF10e0brn2GTmxkeOHpw=='),
+(1, 'cliente_juliana', 'eXDI83GFbZNX/T98eh7z6w61WBm1j4q4kUvukIaQ0DNf1XOvlrJ8M6H9Fjhc5kMHmfPEe1wg7lFJiucWFf5xZg=='),
+(1, 'cliente_caroline', 'JDc7L22Z7ln94hliWWH0N/mEA99zc7KattFbbr3+IZj6ZNgRQO5BqFtwxiv49oicjPgdH0cqAPnepACgjLqTMg=='),
+(1, 'cliente_fernanda', 'GJT+Wolwvp3TaibJtfTCixQ6mXbWOH6Y5M3FWOYCN0Twh+kdjIn5wSD0eVKjqQbhdiue9w8mRPRgbquvOBp3fw==');
+
 -- senha_funcionario_danilo
-    (2, 'funcionario_danilo', 'gz92jkTcveMCL5phxX4m8vcDbE7IwdfMYLEbCFjsd55e89YZ8XlOte2oYZKk9l+UgIR94tyzIt1wyI22/K1sdg=='),
+--    (2, 'funcionario_danilo', 'gz92jkTcveMCL5phxX4m8vcDbE7IwdfMYLEbCFjsd55e89YZ8XlOte2oYZKk9l+UgIR94tyzIt1wyI22/K1sdg=='),
 -- senha_funcionario_david
-    (2, 'funcionario_david', '/1TvZJJL/8eyuJ8ktCm35K2ShjAQYM9dPzdDUwU8Fk2S5UMQlZ+AJI6ruk/VRwEB+6LISFzdAOVVQvhl0Owc3w==');
+--    (2, 'funcionario_david', '/1TvZJJL/8eyuJ8ktCm35K2ShjAQYM9dPzdDUwU8Fk2S5UMQlZ+AJI6ruk/VRwEB+6LISFzdAOVVQvhl0Owc3w==');
 
 INSERT INTO cliente_usuario (id_cliente, id_usuario)
 VALUES 
@@ -96,12 +90,13 @@ VALUES
     (8, 8),
     -- Cliente Fernanda
     (9, 9);
-INSERT INTO funcionario_usuario (id_funcionario, id_usuario)
-VALUES 
-    -- Funcionário Guilherme
-    (1, 10),
-    -- Funcionário Joao
-    (2, 11);
+
+--INSERT INTO funcionario_usuario (id_funcionario, id_usuario)
+--VALUES
+--    -- Funcionário Guilherme
+--    (1, 10),
+--    -- Funcionário Joao
+--    (2, 11);
 
 INSERT INTO cliente_endereco (id_cliente, id_endereco)
 VALUES 
@@ -124,12 +119,12 @@ VALUES
     -- Cliente Fernanda
     (9, 9);
 
-INSERT INTO funcionario_endereco (id_endereco, id_funcionario)
-VALUES 
-    -- Funcionário Guilherme
-    (10, 1),
-    -- Funcionário João
-    (11, 2);
+--INSERT INTO funcionario_endereco (id_endereco, id_funcionario)
+--VALUES
+--    -- Funcionário Guilherme
+--    (10, 1),
+--    -- Funcionário João
+--    (11, 2);
 
 -- INSERT INTO cartao(
 --     bandeira_cartao, data_vencimento, tipo_cartao, banco, cod_verificacao, nome_titular, numero)

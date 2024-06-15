@@ -21,6 +21,8 @@ public class Pedido extends DefaultEntity{
 
      private LocalDateTime dataHora;
 
+     private boolean finalizado;
+
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
