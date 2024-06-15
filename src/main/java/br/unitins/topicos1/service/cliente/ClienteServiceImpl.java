@@ -47,7 +47,6 @@ public class ClienteServiceImpl implements ClienteService {
         novoCliente.setNome(dto.nome());
         novoCliente.setCpf(dto.cpf());
         novoCliente.setEmail(dto.email());
-        novoCliente.setNumeroRegistro_posse_porte(dto.numeroRegistro_posse_porte());
         if (dto.listaEnderecos() != null &&
                 !dto.listaEnderecos().isEmpty()) {
             novoCliente.setListaEnderecos(new ArrayList<Endereco>());
@@ -73,8 +72,7 @@ public class ClienteServiceImpl implements ClienteService {
                 cartao.setBanco(c.banco());
                 cartao.setBandeiraCartao(BandeiraCartao.valueOf(c.idBandeiraCartao()));
                 cartao.setCodVerificacao(c.codVerificacao());
-                LocalDate dataVencimento = LocalDate.parse(c.dataVencimento() + "-01");
-                cartao.setDataVencimento(dataVencimento);
+                cartao.setDataVencimento(c.dataVencimento());
                 cartao.setNomeTitular(c.nomeTitular());
                 novoCliente.getListaCartoes().add(cartao);
             }
@@ -103,7 +101,6 @@ public class ClienteServiceImpl implements ClienteService {
             clienteUpdate.setNome(dto.nome());
             clienteUpdate.setCpf(dto.cpf());
             clienteUpdate.setEmail(dto.email());
-            clienteUpdate.setNumeroRegistro_posse_porte(dto.numeroRegistro_posse_porte());
             if (dto.listaEnderecos() != null && !dto.listaEnderecos().isEmpty()) {
                 clienteUpdate.setListaEnderecos(new ArrayList<Endereco>());
                 for (EnderecoDTO enderecoDTO : dto.listaEnderecos()) {
@@ -141,13 +138,6 @@ public class ClienteServiceImpl implements ClienteService {
     public void delete(Long id) {
         if (!repository.deleteById(id))
             throw new NotFoundException();
-    }
-
-    @Override
-    public List<ClienteResponseDTO> findByEnderecoId(Long enderecoId) {
-        return repository.findByEnderecoId(enderecoId).stream()
-                .map(ClienteResponseDTO::valueOf)
-                .collect(Collectors.toList());
     }
 
     @Override

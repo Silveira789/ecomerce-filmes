@@ -7,8 +7,6 @@ import br.unitins.topicos1.dto.cliente.ClienteResponseDTO;
 
 
 
-
-
 public interface ClienteService {
     
     public ClienteResponseDTO insert(ClienteDTO dto);
@@ -22,8 +20,6 @@ public interface ClienteService {
     public List<ClienteResponseDTO> findByNome(String nome);
 
     public List<ClienteResponseDTO> findByAll(); 
-
-    public List<ClienteResponseDTO> findByEnderecoId(Long enderecoId);
     
 
 }

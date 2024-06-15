@@ -3,6 +3,8 @@ package br.unitins.topicos1.resource;
 import br.unitins.topicos1.dto.endereco.EnderecoDTO;
 import br.unitins.topicos1.dto.endereco.EnderecoResponseDTO;
 import br.unitins.topicos1.service.endereco.EnderecoService;
+import io.quarkus.logging.Log;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -26,42 +28,48 @@ public class EnderecoResource {
     EnderecoService service;
 
     @POST
-    //@RolesAllowed({"Admin"})
+    @RolesAllowed({"Admin"})
     public EnderecoResponseDTO insert(EnderecoDTO dto) {
+        Log.info("Cadastrando um endereco.");
         return service.insert(dto);
     }
 
     @PUT
     @Transactional
     @Path("/{id}")
-    //@RolesAllowed({"Admin"})
+    @RolesAllowed({"Admin"})
     public EnderecoResponseDTO update(EnderecoDTO dto, @PathParam("id") Long id) {
+        Log.info("Atualizando um endereco.");
         return service.update(dto, id);
     }
 
     @DELETE
     @Transactional
     @Path("/{id}")
-    //@RolesAllowed({"Admin"})
+    @RolesAllowed({"Admin"})
     public void delete(@PathParam("id") Long id) {
+        Log.info("Deletando um endereco.");
         service.delete(id);
     }
 
     @GET
     public Response findAll(){
+        Log.info("Buscando todos os enderecos cadastrados.");
         return Response.ok(service.findByAll()).build();
     }
 
     @GET
     @Path("/{id}")
-    //@RolesAllowed({"Admin"})
+    @RolesAllowed({"Admin"})
     public Response findById(@PathParam("id") Long id){
+        Log.info("Buscando um endereco expecificado pelo id.");
         return Response.ok(service.findById(id)).build();
     }
 
     @GET
     @Path("/search/nome/{nome}")
     public Response findByNome(@PathParam("nome") String nome){
+        Log.info("Buscando um endereco expecificado pelo nome.");
         return Response.ok(service.findByNome(nome)).build();
     }
 }

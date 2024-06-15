@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import br.unitins.topicos1.dto.usuario.AlterarSenhaUsuarioDTO;
 import br.unitins.topicos1.dto.usuario.UsuarioDTO;
 import br.unitins.topicos1.dto.usuario.UsuarioResponseDTO;
 import br.unitins.topicos1.model.Perfil;
@@ -14,6 +15,7 @@ import br.unitins.topicos1.validation.ValidationException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import io.quarkus.logging.Log;
 import io.quarkus.security.ForbiddenException;
 import jakarta.ws.rs.NotFoundException;
 
@@ -34,8 +36,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioResponseDTO insert(UsuarioDTO dto) {
 
         if (repository.findByLogin(dto.login()) != null) {
-            throw new ValidationException("login", "Login já existe");
-            //new ValidationException("login", "Login já existe.")
+            throw new ValidationException("login", "Login já existe.");
 
         }
         Usuario novoUsuario = new Usuario();
@@ -62,9 +63,27 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
+    public UsuarioResponseDTO alterarSenha(AlterarSenhaUsuarioDTO alterarSenhaUsuarioDTO, String login) {
+        Usuario usuario = repository.findByLogin(login);
+        Log.info("Senha antiga: "+ usuario.getSenha());
+        usuario.setSenha(hashService.getHashSenha(alterarSenhaUsuarioDTO.senha()));
+        Log.info("Senha nova: "+ usuario.getSenha());
+        Log.info("Senha alterada com sucesso!");
+        repository.persist(usuario);
+
+        return UsuarioResponseDTO.valueOf(usuario);
+    }
+
+
+    @Override
+    @Transactional
     public void delete(Long id) {
-        if (!repository.deleteById(id)) {
-            throw new NotFoundException();
+        Usuario usuario = repository.findById(id);
+
+        if(usuario != null){
+            repository.delete(usuario);
+        }else {
+            throw new NotFoundException("Usuário não encontrado!");
         }
     }
 
@@ -90,12 +109,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioResponseDTO findByLoginAndSenha(String login, String senha) {
-        Usuario usuario = repository.findByLoginAndSenha(login, senha);
-        if (usuario == null)
-            throw new ValidationException("login", "Login ou senha inválidos");
-
-        return UsuarioResponseDTO.valueOf(usuario);
-
+        try {
+            Usuario usuario = repository.findByLoginAndSenha(login, senha);
+            if (usuario == null) {
+                throw new ValidationException("login", "Login ou senha inválido");
+            }
+            return UsuarioResponseDTO.valueOf(usuario);
+        } catch (Exception e) {
+            e.printStackTrace(); // Adicione esta linha para imprimir a pilha de exceção no console
+            throw new ValidationException("login", "Ocorreu um erro durante a autenticação. Consulte os logs para obter mais informações.");
+        }
     }
 
     @Override

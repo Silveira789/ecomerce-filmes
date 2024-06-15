@@ -1,18 +1,22 @@
 package br.unitins.topicos1.resource;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 // import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
+import br.unitins.topicos1.dto.usuario.AlterarSenhaUsuarioDTO;
 import br.unitins.topicos1.service.usuario.UsuarioService;
+import io.quarkus.logging.Log;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -33,53 +37,28 @@ public class UsuarioLogadoResource {
     @Inject
     UsuarioService usuarioService;
 
+    private static final Logger LOG = Logger.getLogger(String.valueOf(UsuarioLogadoResource.class));
+
     @GET
-   // @RolesAllowed({ "User", "Admin" })
+    @RolesAllowed({ "User", "Admin" })
     public Response getUsuario() {
 
         // Obtendo o login pelo token jwt
         String login = jwt.getSubject();
-
+        Log.info("Pegando o usuario logado string: " + login);
+        Log.info("Pegando o usuário logado");
         return Response.ok(usuarioService.findByLogin(login)).build();
     }
 
-/* 
-     @PATCH
-     @Path("/download/imagem")
-     @RolesAllowed({ "User", "Admin" })
-     @Consumes(MediaType.MULTIPART_FORM_DATA)
-     public Response salvarImagem(@MultipartForm UsuarioImagemForm form) {
-
-         String nomeImagem;
-         try{
-             nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem());
-         } catch (IOException e){
-             e.printStackTrace();
-             Error error = new Error("409", e.getMessage());
-             return Response.status(Status.CONFLICT).entity(error).build();
-         }
-
-
-         String login = jwt.getSubject();
-         UsuarioResponseDTO usuarioDTO = usuarioService.findByLogin(login);
-         usuarioDTO = usuarioService.updateNomeImagem(usuarioDTO.id(), nomeImagem);
-
-         return Response.ok(usuarioDTO).build();
-     }
-
-
-     @GET
-     @Path("/download/imagem")
-     @RolesAllowed({"User","Admin"})
-     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-     public Response download(@PathParam("nomeImagem")String nomeImagem){
-             ResponseBuilder response = Response.ok(fileService.obter(nomeImagem));
-             response.header("Content-Disposition", "attachment;filename="+nomeImagem);
-             return response.build();
-     }
-     
-*/
-
-
+    @Path("/usuariologado")
+    @PUT
+    @RolesAllowed({ "User", "Admin" })
+    public Response putInfos(AlterarSenhaUsuarioDTO senhaUsuarioDTO) {
+        String login = jwt.getSubject();
+        Log.info("Pegando o usuario logado string: " + login);
+        Log.info("Alterando a senha do usuário logado");
+        usuarioService.alterarSenha(senhaUsuarioDTO, login);
+        return Response.noContent().build();
+    }
 
 }
