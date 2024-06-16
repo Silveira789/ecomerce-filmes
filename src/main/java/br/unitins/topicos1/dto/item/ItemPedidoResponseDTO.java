@@ -2,7 +2,7 @@ package br.unitins.topicos1.dto.item;
 
 import br.unitins.topicos1.model.ItemPedido;
 
-public record ItemResponseDTO (
+public record ItemPedidoResponseDTO (
 
         long id,
         String nome,
@@ -11,9 +11,9 @@ public record ItemResponseDTO (
         long idPedido
 
 ) {
-    public static ItemResponseDTO valueOf(ItemPedido item) {
+    public static ItemPedidoResponseDTO valueOf(ItemPedido item) {
 
-        return new ItemResponseDTO(item.getId(),
+        return new ItemPedidoResponseDTO(item.getId(),
                 item.getFilme().getNome(),
                 item.getPreco(),
                 item.getQuantidade(),

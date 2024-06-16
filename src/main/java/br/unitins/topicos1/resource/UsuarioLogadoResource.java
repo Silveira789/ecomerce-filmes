@@ -37,7 +37,6 @@ public class UsuarioLogadoResource {
     @Inject
     UsuarioService usuarioService;
 
-    
 
     @GET
     @RolesAllowed({ "User", "Admin" })

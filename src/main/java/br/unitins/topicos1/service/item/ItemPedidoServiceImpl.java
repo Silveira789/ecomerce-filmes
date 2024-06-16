@@ -1,93 +1,117 @@
 package br.unitins.topicos1.service.item;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.microprofile.jwt.JsonWebToken;
+
 import br.unitins.topicos1.dto.item.ItemPedidoDTO;
-import br.unitins.topicos1.dto.item.ItemResponseDTO;
+import br.unitins.topicos1.dto.item.ItemPedidoResponseDTO;
 import br.unitins.topicos1.model.Filme;
 import br.unitins.topicos1.model.ItemPedido;
+import br.unitins.topicos1.model.Pedido;
+import br.unitins.topicos1.model.Usuario;
 import br.unitins.topicos1.repository.FilmeRepository;
+import br.unitins.topicos1.repository.PedidoRepository;
+import br.unitins.topicos1.repository.UsuarioRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.NotFoundException;
 
-public class ItemPedidoServiceImpl {
+@ApplicationScoped
+public class ItemPedidoServiceImpl implements ItemPedidoService{
 
     @Inject
-    FilmeRepository repository;
+    JsonWebToken jwt;
 
-    // @Override
-    // @Transactional
-    // public ItemResponseDTO insert(ItemPedidoDTO dto) {
-    //     ItemPedido novoItem = new ItemPedido();
-    //         novoItem.setNome(dto.getNome());
-    //         novoItem.setDescricao(dto.getDescricao());
-    //         novoItem.setGenero(dto.getGenero());
-    //         novoItem.setAnoLancamento(dto.getAnoLancamento());
-    //         novoItem.setDirecao(dto.getDirecao());
-    //         novoItem.setDuracao(dto.getDuracao());
-    //         novoItem.setPreco(dto.getPreco());
-    //         novoItem.setQtdNoEstoque(dto.getQtdNoEstoque());
-    //         novoItem.setTituloOriginal(dto.getTituloOriginal());
+    @Inject
+    FilmeRepository filmeRepository;
 
-    //     repository.persist(novoItem);
+    @Inject
+    UsuarioRepository usuarioRepository;
 
-    //     return ItemResponseDTO.valueOf(novoItem);
+    @Inject
+    PedidoRepository pedidoRepository;
 
-    // }
+//    @Inject
+//    ItemPedidoRepository itemRepository;
 
-    // @Override
-    // @Transactional
-    // public ItemResponseDTO update(ItemPedidoDTO dto, Long id) {
+    @Override
+    @Transactional
+    public ItemPedidoResponseDTO insert(ItemPedidoDTO dto) {
+        // Encontrar o filme pelo ID fornecido no DTO
+        Filme filme = filmeRepository.findById(dto.produto());
+        if (filme == null) {
+            throw new RuntimeException("Filme não encontrado");
+        }
 
-    //     Filme filme = (Filme) repository.findById(id);
+        // Criar um novo ItemPedido com os dados do filme e do DTO
+        ItemPedido item = new ItemPedido();
+        item.setFilme(filme);
+        item.setQuantidade(dto.quantidade());
+        item.setPreco(filme.getPreco());
 
-    //     if (filme != null) {
-    //         filme.setNome(dto.getNome());
-    //         filme.setDescricao(dto.getDescricao());
-    //         filme.setGenero(dto.getGenero());
-    //         filme.setAnoLancamento(dto.getAnoLancamento());
-    //         filme.setDirecao(dto.getDirecao());
-    //         filme.setDuracao(dto.getDuracao());
-    //         filme.setPreco(dto.getPreco());
-    //         filme.setQtdNoEstoque(dto.getQtdNoEstoque());
-    //         filme.setTituloOriginal(dto.getTituloOriginal());
+        // Obter o login do JWT
+        String login = jwt.getSubject();
+        // Encontrar o usuário pelo login
+        Usuario usuario = usuarioRepository.findByLogin(login);
+        if (usuario == null) {
+            throw new RuntimeException("Usuário não encontrado");
+        }
 
-    //     } else
-    //         throw new NotFoundException();
-    //     return ItemResponseDTO.valueOf(filme);
-    // }
+        // Encontrar um pedido não finalizado para o usuário
+        List<Pedido> pedidos = pedidoRepository.findByFinalizadoIsFalse(usuario.getId());
 
-    // // TRATAR ERRO DE ID INVALIDO
-    // @Override
-    // @Transactional
-    // public void delete(Long id) {
-    //     if (!repository.deleteById(id))
-    //         throw new NotFoundException("Arma não encontrada para o ID: " + id);
-    // }
+        Pedido pedido;
 
-    // @Override
-    // public ItemResponseDTO findById(Long id) {
-    //     if (repository.findById(id) != null)
-    //         return ItemResponseDTO.valueOf(repository.findById(id));
-    //     else {
-    //         throw new NotFoundException("Arma não encontrada para o ID: " + id);
-    //     }
-    // }
+        if (pedidos.isEmpty()) {
+            // Criar um novo pedido se não houver nenhum não finalizado
+            pedido = new Pedido();
+            pedido.setUsuario(usuario);
+            // Adicionar o item ao pedido
+            List<ItemPedido> itens = new ArrayList<>();
+            itens.add(item);
+            pedido.setItens(itens);
+        } else {
+            // Usar o pedido não finalizado encontrado
+            pedido = pedidos.get(0);
+            // Adicionar o item ao pedido existente
+            pedido.getItens().add(item);
+        }
 
-    // @Override
-    // public List<ItemResponseDTO> findByNome(String nome) {
-    //     if (nome != null || nome == "") {
-    //         return repository.findByNome(nome).stream()
-    //                 .map(p -> ItemResponseDTO.valueOf(p)).toList();
-    //     }
-    //     throw new NotFoundException("Nome não encontrado!");
-    // }
+        // Persistir o pedido e o item (assumindo que o pedido cuida da persistência do item)
+        pedidoRepository.persist(pedido);
 
-    // @Override
-    // public List<ItemResponseDTO> findByAll() {
-    //     return repository.listAll().stream()
-    //             .map(p -> ItemResponseDTO.valueOf(p)).toList();
-    // }
+        item.setPedido(pedido);
+
+        // Retornar o DTO de resposta
+        return ItemPedidoResponseDTO.valueOf(item);
+    }
+
+    @Override
+    public ItemPedidoResponseDTO update(ItemPedidoDTO dto, Long id) {
+        return null;
+    }
+
+    @Override
+    public void delete(Long id) {
+
+    }
+
+    @Override
+    public ItemPedidoResponseDTO findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<ItemPedidoResponseDTO> findByNome(String nome) {
+        return List.of();
+    }
+
+    @Override
+    public List<ItemPedidoResponseDTO> findByAll() {
+        return List.of();
+    }
+
 
 }

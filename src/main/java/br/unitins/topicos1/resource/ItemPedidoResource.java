@@ -3,9 +3,10 @@ package br.unitins.topicos1.resource;
 import br.unitins.topicos1.dto.endereco.EnderecoDTO;
 import br.unitins.topicos1.dto.endereco.EnderecoResponseDTO;
 import br.unitins.topicos1.dto.item.ItemPedidoDTO;
-import br.unitins.topicos1.dto.item.ItemResponseDTO;
+import br.unitins.topicos1.dto.item.ItemPedidoResponseDTO;
 import br.unitins.topicos1.service.endereco.EnderecoService;
 import br.unitins.topicos1.service.filme.FilmeService;
+import br.unitins.topicos1.service.item.ItemPedidoService;
 import io.quarkus.logging.Log;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -21,15 +22,20 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-public class ItemResource {
+@Path("/itens")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
+public class ItemPedidoResource {
 
-    @Path("/itens")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public class FilmeResource {
+    @Inject
+    ItemPedidoService  service;
 
-        @Inject
-        FilmeService service;
+    @POST
+    @RolesAllowed({"Admin"})
+    public ItemPedidoResponseDTO insert(ItemPedidoDTO dto) {
+        Log.info("Cadastrando um filme.");
+        return service.insert(dto);
+    }
 
     //     @POST
     //     @RolesAllowed({ "Admin" })
@@ -79,4 +85,3 @@ public class ItemResource {
 
     }
 
-}
