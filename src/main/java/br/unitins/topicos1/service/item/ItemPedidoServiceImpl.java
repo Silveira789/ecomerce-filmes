@@ -18,6 +18,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
+
+import br.unitins.topicos1.repository.ItemPedidoRepository;
+import jakarta.ws.rs.NotFoundException;
+
 @ApplicationScoped
 public class ItemPedidoServiceImpl implements ItemPedidoService{
 
@@ -33,8 +37,8 @@ public class ItemPedidoServiceImpl implements ItemPedidoService{
     @Inject
     PedidoRepository pedidoRepository;
 
-//    @Inject
-//    ItemPedidoRepository itemRepository;
+    @Inject
+    ItemPedidoRepository itemRepository;
 
     @Override
     @Transactional
@@ -90,28 +94,43 @@ public class ItemPedidoServiceImpl implements ItemPedidoService{
 
     @Override
     public ItemPedidoResponseDTO update(ItemPedidoDTO dto, Long id) {
-        return null;
+        System.out.println("ID: " + id);
+
+        ItemPedido item = itemRepository.findById(id);
+
+        if (item == null) {
+            throw new RuntimeException("Item não encontrado. ID: " + id);
+        }
+
+        item.setQuantidade(dto.quantidade());
+
+        return new ItemPedidoResponseDTO(
+                item.getId(),
+                item.getFilme().getNome(),
+                item.getPreco(),
+                item.getQuantidade(),
+                item.getPedido().getId()
+        );
     }
 
     @Override
     public void delete(Long id) {
-
-    }
-
-    @Override
-    public ItemPedidoResponseDTO findById(Long id) {
-        return null;
-    }
-
-    @Override
-    public List<ItemPedidoResponseDTO> findByNome(String nome) {
-        return List.of();
+        itemRepository.deleteById(id);
     }
 
     @Override
     public List<ItemPedidoResponseDTO> findByAll() {
-        return List.of();
+        return itemRepository.listAll().stream()
+                .map(e -> ItemPedidoResponseDTO.valueOf(e)).toList();
     }
 
+    @Override
+    public ItemPedidoResponseDTO findById(Long id) {
+        if (itemRepository.findById(id) != null)
+            return ItemPedidoResponseDTO.valueOf(itemRepository.findById(id));
+        else {
+            throw new NotFoundException("Arma não encontrada para o ID: " + id);
+        }
+    }
 
 }

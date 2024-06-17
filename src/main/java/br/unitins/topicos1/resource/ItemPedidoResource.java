@@ -37,51 +37,35 @@ public class ItemPedidoResource {
         return service.insert(dto);
     }
 
-    //     @POST
-    //     @RolesAllowed({ "Admin" })
-    //     public ItemResponseDTO insert(ItemPedidoDTO dto) {
-    //         Log.info("Cadastrando um item.");
-    //         return service.insert(dto);
-    //     }
-
-    //     @PUT
-    //     @Transactional
-    //     @Path("/{id}")
-    //     @RolesAllowed({ "Admin" })
-    //     public ItemResponseDTO update(ItemPedidoDTO dto, @PathParam("id") Long id) {
-    //         Log.info("Atualizando os dados de um filme.");
-    //         return service.update(dto, id);
-    //     }
-
-    //     @DELETE
-    //     @Transactional
-    //     @Path("/{id}")
-    //     @RolesAllowed({ "Admin" })
-    //     public void delete(@PathParam("id") Long id) {
-    //         Log.info("Filme deletado.");
-    //         service.delete(id);
-    //     }
-
-    //     @GET
-    //     public Response findAll() {
-    //         Log.info("Busca de todos os filmes");
-    //         return Response.ok(service.findByAll()).build();
-    //     }
-
-    //     @GET
-    //     @Path("/{id}")
-    //     @RolesAllowed({ "Admin" })
-    //     public Response findById(@PathParam("id") Long id) {
-    //         Log.info("Busca de um filme expecificado pelo id");
-    //         return Response.ok(service.findById(id)).build();
-    //     }
-
-    //     @GET
-    //     @Path("/search/nome/{nome}")
-    //     public Response findByNome(@PathParam("nome") String nome) {
-    //         Log.info("Busca de uma filme expecificado pelo nome");
-    //         return Response.ok(service.findByNome(nome)).build();
-    //     }
-
+    @PUT
+    @Transactional
+    @Path("/{id}")
+    @RolesAllowed({ "Admin" })
+    public ItemPedidoResponseDTO update(ItemPedidoDTO dto, @PathParam("id") Long id) {
+        Log.info("Atualizando os dados de um item.");
+        return service.update(dto, id);
     }
 
+    @DELETE
+    @Transactional
+    @Path("/{id}")
+    @RolesAllowed({ "Admin" })
+    public void delete(@PathParam("id") Long id) {
+        Log.info("Item deletado.");
+        service.delete(id);
+    }
+
+    @GET
+    public Response findAll() {
+        Log.info("Busca de todos os filmes");
+        return Response.ok(service.findByAll()).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({ "Admin" })
+    public Response findById(@PathParam("id") Long id) {
+        Log.info("Busca de um item especificado pelo id");
+        return Response.ok(service.findById(id)).build();
+    }
+}

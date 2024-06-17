@@ -15,11 +15,9 @@ public interface ItemPedidoService {
 
     public void delete(Long id);
 
+    public List<ItemPedidoResponseDTO> findByAll();
+
     public ItemPedidoResponseDTO findById(Long id);
-
-    public List<ItemPedidoResponseDTO> findByNome(String nome);
-
-    public List<ItemPedidoResponseDTO> findByAll(); 
 
     
 }

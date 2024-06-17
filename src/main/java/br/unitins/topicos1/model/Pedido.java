@@ -1,6 +1,5 @@
 package br.unitins.topicos1.model;
 
-
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -17,17 +16,17 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class Pedido extends DefaultEntity{
+public class Pedido extends DefaultEntity {
 
-     private LocalDateTime dataHora;
+    private LocalDateTime dataHora;
 
-     private boolean finalizado;
+    private boolean finalizado;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "pedido", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.LAZY)
     private List<ItemPedido> itens;
 
     private Double totalPedido;

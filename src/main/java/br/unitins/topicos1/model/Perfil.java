@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum Perfil {
 
     USER(1, "User"),
-    ADMIN(2, "Admin");
+    ADMIN(2, "Admin"),
+    CLIENTE(3, "Cliente");
 
     private final Integer id;
     private final String label;
@@ -25,7 +26,5 @@ public enum Perfil {
         }
         throw new IllegalArgumentException("Id inválido" + id);
     }
-
-
 
 }
