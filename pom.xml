@@ -95,6 +95,13 @@
             <version>1.18.30</version> 
             <scope>provided</scope>
         </dependency>
+
+    <!-- Dependecia JWT token -->
+    <!-- https://mvnrepository.com/artifact/io.quarkus/quarkus-hibernate-validator -->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-validator</artifactId>
+    </dependency>
         
   </dependencies>
   <build>
