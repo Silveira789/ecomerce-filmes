@@ -2,7 +2,6 @@ package br.unitins.topicos1.dto.cliente;
 
 import java.util.List;
 
-import br.unitins.topicos1.dto.cartao.CartaoDTO;
 import br.unitins.topicos1.dto.endereco.EnderecoDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,8 +19,6 @@ public record ClienteDTO(
         String email,
         @NotNull(message = "O campo telefone não pode ficar em branco")
         List<String> listaTelefones,
-        @NotNull(message = "O campo enderecos não pode ficar em branco")
-        List<CartaoDTO> listaCartoes,
         @NotNull(message = "O campo enderecos não pode ficar em branco")
         List<EnderecoDTO> listaEnderecos,
         @NotNull(message = "O campo usuario não pode ficar em branco")

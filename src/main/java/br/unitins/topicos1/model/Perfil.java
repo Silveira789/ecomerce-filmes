@@ -1,13 +1,15 @@
 package br.unitins.topicos1.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Getter;
 
 @Getter
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Perfil {
 
     USER(1, "User"),
-    ADMIN(2, "Admin"),
-    CLIENTE(3, "Cliente");
+    ADMIN(2, "Admin");
 
     private final Integer id;
     private final String label;
@@ -26,5 +28,5 @@ public enum Perfil {
         }
         throw new IllegalArgumentException("Id inválido" + id);
     }
-
+    
 }

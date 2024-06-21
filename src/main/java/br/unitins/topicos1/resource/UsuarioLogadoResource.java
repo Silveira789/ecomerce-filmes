@@ -25,6 +25,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 import jakarta.ws.rs.core.Response.Status;
 
+
 @Path("/usuariologado")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -37,22 +38,21 @@ public class UsuarioLogadoResource {
     @Inject
     UsuarioService usuarioService;
 
-
     @GET
     @RolesAllowed({ "User", "Admin" })
     public Response getUsuario() {
 
-        
+        // Obtendo o login pelo token jwt
         String login = jwt.getSubject();
         Log.info("Pegando o usuario logado string: " + login);
         Log.info("Pegando o usuário logado");
         return Response.ok(usuarioService.findByLogin(login)).build();
     }
 
-    @Path("/usuariologado")
+     @Path("/usuariologado")
     @PUT
-    @RolesAllowed({ "User", "Admin" })
-    public Response putInfos(AlterarSenhaUsuarioDTO senhaUsuarioDTO) {
+    @RolesAllowed({"User", "Admin"})
+    public Response putInfos(AlterarSenhaUsuarioDTO senhaUsuarioDTO){
         String login = jwt.getSubject();
         Log.info("Pegando o usuario logado string: " + login);
         Log.info("Alterando a senha do usuário logado");
@@ -61,3 +61,4 @@ public class UsuarioLogadoResource {
     }
 
 }
+

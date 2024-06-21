@@ -1,14 +1,32 @@
 package br.unitins.topicos1.service.pedido;
 
 
+import br.unitins.topicos1.dto.itemPedido.ItemPedidoDTO;
+import br.unitins.topicos1.dto.pedido.PedidoDTO;
 import br.unitins.topicos1.dto.pedido.PedidoResponseDTO;
+import br.unitins.topicos1.model.Cliente;
+import br.unitins.topicos1.model.Filme;
+import br.unitins.topicos1.model.FormaDePagamento;
+import br.unitins.topicos1.model.ItemPedido;
+import br.unitins.topicos1.model.Pedido;
+import br.unitins.topicos1.model.Status;
+import br.unitins.topicos1.repository.ClienteRepository;
+import br.unitins.topicos1.repository.FilmeRepository;
 import br.unitins.topicos1.repository.PedidoRepository;
 import br.unitins.topicos1.repository.UsuarioRepository;
+import br.unitins.topicos1.validation.ValidationException;
+
+import io.quarkus.security.identity.SecurityIdentity;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.NotFoundException;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -16,31 +34,138 @@ import java.util.List;
 public class PedidoServiceImpl implements PedidoService {
 
     @Inject
-    JsonWebToken jwt;
-    
-    @Inject
-    UsuarioRepository usuarioRepository;
+    private PedidoRepository pedidoRepository;
 
     @Inject
-    PedidoRepository pedidoRepository;
+    private FilmeRepository filmeRepository;
+
+    @Inject
+    private ClienteRepository clienteRepository;
+
+    @Inject
+    SecurityIdentity securityIdentity;
+
+    @Inject
+    JsonWebToken jwt;
 
     @Override
-    public void delete(Long id) {
-        pedidoRepository.deleteById(id);
+    @Transactional
+    public PedidoResponseDTO insert(@Valid PedidoDTO dto) {
+
+        String login = securityIdentity.getPrincipal().getName();
+
+        Cliente clienteAutenticado = clienteRepository.findById(dto.idCliente());
+        if (clienteAutenticado == null) {
+            throw new ValidationException("Buscando Cliente", "Cliente não encontrado");
+        }
+
+        if (!AutenticacaoCliente(login, dto.idCliente())) {
+            throw new ValidationException("Verificando...", "Você não pode fazer o pedido.");
+        }
+
+        Pedido pedido = new Pedido();
+
+        pedido.setDataHora(LocalDateTime.now());
+        pedido.setCliente(clienteAutenticado);
+        pedido.setFormaDePagamento(FormaDePagamento.valueOf(dto.idFormaDePagamento()));
+
+        List<ItemPedido> itens = new ArrayList<ItemPedido>();
+        double total = 0;
+
+        for (ItemPedidoDTO itemDTO : dto.itens()) {
+            ItemPedido item = new ItemPedido();
+
+            item.setFilme(filmeRepository.findById(itemDTO.idFilme()));
+            item.setQuantidade((itemDTO.quantidade()));
+
+            if (item.getQuantidade() <= item.getFilme().getQtdNoEstoque()) {
+                item.getFilme().setQtdNoEstoque(item.getFilme().getQtdNoEstoque() - item.getQuantidade());
+            } else {
+                throw new ValidationException("QuantidadeDisponivel", "Quantidade Indisponivel");
+            }
+
+            total += calcularValorTotal(item.getFilme(), item);
+            
+            itens.add(item);
+        }
+
+        pedido.setItens(itens);
+        pedido.setTotalPedido(total);
+
+        pedido.setStatus(Status.PENDENTE);
+
+        pedidoRepository.persist(pedido);
+        return PedidoResponseDTO.valueOf(pedido);
+
     }
 
-    @Override
-    public List<PedidoResponseDTO> findByAll() {
-        return pedidoRepository.listAll().stream()
-                .map(e -> PedidoResponseDTO.valueOf(e)).toList();
+    private double calcularValorTotal(Filme filme, ItemPedido item) {
+        double precoarma = filme.getPreco();
+        return (precoarma * item.getQuantidade());
+    }
+
+    public boolean AutenticacaoCliente(String login, Long idCliente) {
+        Cliente clienteAut = clienteRepository.findByLogin(login);
+        return clienteAut != null && clienteAut.getId().equals(idCliente);
     }
 
     @Override
     public PedidoResponseDTO findById(Long id) {
-        if (pedidoRepository.findById(id) != null)
-            return PedidoResponseDTO.valueOf(pedidoRepository.findById(id));
-        else {
-            throw new NotFoundException("Arma não encontrada para o ID: " + id);
+        Pedido pedido = pedidoRepository.findById(id);
+        if (pedido != null)
+            return PedidoResponseDTO.valueOf(pedido);
+        return null;
+    }
+
+    @Override
+    public List<PedidoResponseDTO> findAll() {
+        return pedidoRepository
+                .listAll()
+                .stream()
+                .map(e -> PedidoResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    public List<PedidoResponseDTO> findByCliente(Long idCliente) {
+        return pedidoRepository.findByCliente(idCliente).stream()
+                .map(e -> PedidoResponseDTO.valueOf(e)).toList();
+    }
+
+    @Override
+    @Transactional
+    public void alterarStatusPagamento(Long id) {
+        Pedido pedido = pedidoRepository.findById(id);
+
+        String nomeCliente = jwt.getName();
+
+        if (pedido == null) {
+            throw new ValidationException("Buscando Pedido", "O Pedido não foi encontrado");
+        }
+
+        if (!pedido.getCliente().getNome().equals(nomeCliente)) {
+            throw new ValidationException("Verificando...",
+                    "Você não tem permissão para alterar o status de pagamento desse");
+        }
+
+        if (pedido.getStatus() == Status.PENDENTE) {
+            pedido.setStatus(Status.PAGO);
+        } else if (pedido.getStatus() == Status.PAGO) {
+            throw new ValidationException("Situação:", "Pedido ja esta pago");
         }
     }
+
+    @Override
+    @Transactional
+    public List<PedidoResponseDTO> meusPedidos() {
+        String login = jwt.getName();
+        List<PedidoResponseDTO> pedidos = pedidoRepository.find("cliente.usuario.login", login).stream()
+                .map(e -> PedidoResponseDTO.valueOf(e)).toList();
+
+        if (pedidos.isEmpty()) {
+            throw new ValidationException("Verificando...", "Você ainda não fez nenhum pedido :(");
+        }
+        return pedidos;
+
+    }
+
 }

@@ -10,7 +10,6 @@ import jakarta.validation.ValidationException;
 
 @ApplicationScoped
 public class UsuarioRepository implements PanacheRepository<Usuario>{
-
     public List<Usuario> findByNome(String nome) {
         return find("UPPER(nome) LIKE UPPER(?1) ", "%"+nome+"%").list();
     }
@@ -32,8 +31,5 @@ public class UsuarioRepository implements PanacheRepository<Usuario>{
             e.printStackTrace();
             throw new ValidationException("Login ou senha inválido");
         }
-        
     }
-
-
 }

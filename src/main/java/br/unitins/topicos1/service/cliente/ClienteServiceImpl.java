@@ -5,17 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.unitins.topicos1.dto.cartao.CartaoDTO;
 import br.unitins.topicos1.dto.cliente.ClienteDTO;
 import br.unitins.topicos1.dto.cliente.ClienteResponseDTO;
 import br.unitins.topicos1.dto.endereco.EnderecoDTO;
-import br.unitins.topicos1.model.BandeiraCartao;
-import br.unitins.topicos1.model.Cartao;
 import br.unitins.topicos1.model.Cliente;
 import br.unitins.topicos1.model.Endereco;
-import br.unitins.topicos1.model.TipoCartao;
 import br.unitins.topicos1.model.Usuario;
-import br.unitins.topicos1.repository.CartaoRepository;
 import br.unitins.topicos1.repository.ClienteRepository;
 import br.unitins.topicos1.repository.EnderecoRepository;
 import br.unitins.topicos1.repository.UsuarioRepository;
@@ -36,9 +31,6 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Inject
     UsuarioRepository usuarioRepository;
-
-    @Inject
-    CartaoRepository cartaoRepository;
 
     @Override
     @Transactional
@@ -62,21 +54,7 @@ public class ClienteServiceImpl implements ClienteService {
                 novoCliente.getListaEnderecos().add(endereco);
             }
         }
-        if (dto.listaCartoes() != null &&
-                !dto.listaCartoes().isEmpty()) {
-            novoCliente.setListaCartoes(new ArrayList<Cartao>());
-            for (CartaoDTO c : dto.listaCartoes()) {
-                Cartao cartao = new Cartao();
-                cartao.setTipoCartao(TipoCartao.valueOf(c.idTipoCartao()));
-                cartao.setNumero(c.numero());
-                cartao.setBanco(c.banco());
-                cartao.setBandeiraCartao(BandeiraCartao.valueOf(c.idBandeiraCartao()));
-                cartao.setCodVerificacao(c.codVerificacao());
-                cartao.setDataVencimento(c.dataVencimento());
-                cartao.setNomeTitular(c.nomeTitular());
-                novoCliente.getListaCartoes().add(cartao);
-            }
-        }
+        
         if (dto.listaTelefones() != null &&
                 !dto.listaTelefones().isEmpty()) {
             novoCliente.setListaTelefones(new ArrayList<String>());

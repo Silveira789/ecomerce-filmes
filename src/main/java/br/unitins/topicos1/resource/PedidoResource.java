@@ -1,44 +1,89 @@
 package br.unitins.topicos1.resource;
 
+import org.jboss.logging.Logger;
+
+import br.unitins.topicos1.dto.pedido.PedidoDTO;
 import br.unitins.topicos1.service.pedido.PedidoService;
 import io.quarkus.logging.Log;
+import io.quarkus.security.identity.SecurityIdentity;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 
 
-@Path("/pedidos")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Path("/pedidos")
 public class PedidoResource {
 
+    private static final Logger LOG = Logger.getLogger(PedidoResource.class);
+
     @Inject
-    PedidoService service;
+    public PedidoService pedidoService;
 
-    @DELETE
-    @Transactional
-    @Path("/{id}")
-    @RolesAllowed({ "Admin" })
-    public void delete(@PathParam("id") Long id) {
-        Log.info("Pedido deletado.");
-        service.delete(id);
+    @Inject
+    SecurityIdentity securityIdentity;
+
+    @POST
+    @RolesAllowed({ "User"})
+    public Response insert(@Valid PedidoDTO dto) {
+        LOG.info("Executando criação de pedido");
+        String username = securityIdentity.getPrincipal().getName();
+
+        if(!pedidoService.AutenticacaoCliente(username, dto.idCliente())){
+            throw new ValidationException("Você não tem permissão para realizar o pedido.");
+        }
+
+        return Response.status(Status.CREATED).entity(pedidoService.insert(dto)).build();
     }
 
     @GET
+    @RolesAllowed({ "User", "Admin" })
     public Response findAll() {
-        Log.info("Busca de todos os filmes");
-        return Response.ok(service.findByAll()).build();
+        LOG.info("Executando FindAll");
+        return Response.ok(pedidoService.findAll()).build();
     }
 
     @GET
     @Path("/{id}")
-    @RolesAllowed({ "Admin" })
+    @RolesAllowed({"Admin" })
     public Response findById(@PathParam("id") Long id) {
-        Log.info("Busca de um item especificado pelo id");
-        return Response.ok(service.findById(id)).build();
+        LOG.infof("Executando o findById");
+        return Response.ok(pedidoService.findById(id)).build();
+    }
+
+    @GET
+    @Path("/search/cliente/{id}")
+    @RolesAllowed({ "User", "Admin" })
+    public Response findByCliente(@PathParam("id") Long idCliente) {
+        return Response.ok(pedidoService.findByCliente(idCliente)).build();
+    }
+
+    @PATCH
+    @Path("/alterarStatusPagamento/{idPedido}")
+    @RolesAllowed({ "User" })
+    public Response alterarStatusPagamento(@PathParam("idPedido") Long idPedido) {
+        LOG.info("Executando alteração de status de pagamento");
+        pedidoService.alterarStatusPagamento(idPedido);
+        return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/meusPedidos")
+    @RolesAllowed({"User"})
+    public Response meusPedidos(){
+        LOG.info("Executando o método meusPedidos() de pedido. ");
+        try {
+            return Response.ok(pedidoService.meusPedidos()).build();
+        } catch (NotFoundException e) {
+            return Response.status(Status.NOT_FOUND).entity(e.getMessage()).build();
+        }
     }
 }

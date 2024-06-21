@@ -28,7 +28,7 @@ public class EnderecoResource {
     EnderecoService service;
 
     @POST
-    @RolesAllowed({"Admin"})
+    @RolesAllowed({"User","Admin"})
     public EnderecoResponseDTO insert(EnderecoDTO dto) {
         Log.info("Cadastrando um endereco.");
         return service.insert(dto);
@@ -37,7 +37,7 @@ public class EnderecoResource {
     @PUT
     @Transactional
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @RolesAllowed({"User","Admin"})
     public EnderecoResponseDTO update(EnderecoDTO dto, @PathParam("id") Long id) {
         Log.info("Atualizando um endereco.");
         return service.update(dto, id);
@@ -46,13 +46,14 @@ public class EnderecoResource {
     @DELETE
     @Transactional
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @RolesAllowed({"User","Admin"})
     public void delete(@PathParam("id") Long id) {
         Log.info("Deletando um endereco.");
         service.delete(id);
     }
 
     @GET
+    @RolesAllowed({"User","Admin"})
     public Response findAll(){
         Log.info("Buscando todos os enderecos cadastrados.");
         return Response.ok(service.findByAll()).build();
@@ -68,6 +69,7 @@ public class EnderecoResource {
 
     @GET
     @Path("/search/nome/{nome}")
+    @RolesAllowed({"User","Admin"})
     public Response findByNome(@PathParam("nome") String nome){
         Log.info("Buscando um endereco expecificado pelo nome.");
         return Response.ok(service.findByNome(nome)).build();

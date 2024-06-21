@@ -7,17 +7,8 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class PedidoRepository implements PanacheRepository<Pedido> {
-
-    public List<Pedido> findAll(String login) {
-        return find("pessoa.login = ?1", login).list();
-    }
-    
-    public List<Pedido> findAll(Long idPessoa) {
-        return find("pessoa.id = ?1", idPessoa).list();
-    }
-
-    public List<Pedido> findByFinalizadoIsFalse(Long idUsuario) {
-        return find("finalizado = false AND usuario.id = ?1", idUsuario).list();
+public class PedidoRepository implements PanacheRepository<Pedido> {   
+    public List<Pedido> findByCliente (Long clienteId){
+        return find("cliente.id", clienteId).list();
     }
 }

@@ -19,14 +19,15 @@ import java.time.LocalDateTime;
 public class Pedido extends DefaultEntity {
 
     private LocalDateTime dataHora;
-
-    private boolean finalizado;
+    private FormaDePagamento formaDePagamento;
+    private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id_pedido")
     private List<ItemPedido> itens;
 
     private Double totalPedido;
