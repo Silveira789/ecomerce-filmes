@@ -1,5 +1,8 @@
 package br.unitins.topicos1.resource;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
@@ -23,7 +26,6 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 
 @Produces(MediaType.APPLICATION_JSON)
@@ -31,100 +33,130 @@ import jakarta.ws.rs.core.Response.ResponseBuilder;
 @Path("/filmes")
 public class FilmeResource {
 
-    private static final Logger LOG = Logger.getLogger(FilmeResource.class);
+    @Inject
+    FilmeService service;
 
     @Inject
-    public FilmeService service;
-
-    @Inject
-    public FilmeFileServiceImpl fileService;
+    FilmeFileServiceImpl fileService;
 
     @POST
     @RolesAllowed({"Admin"})
-    public FilmeResponseDTO insert(FilmeDTO dto) {
-        Log.info("Cadastrando um filme." + dto.getNome());
-        Log.info(dto);
-        return service.insert(dto);
+    public Response insert(FilmeDTO dto) {
+        try {
+            Log.info("Cadastrando um filme: " + dto.getNome());
+            FilmeResponseDTO responseDTO = service.insert(dto);
+            return Response.status(Response.Status.CREATED).entity(responseDTO).build();
+        } catch (Exception e) {
+            Log.error("Erro ao cadastrar um filme: ", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erro ao cadastrar um filme.").build();
+        }
     }
 
     @PUT
     @Transactional
     @Path("/{id}")
     @RolesAllowed({"Admin"})
-    public FilmeResponseDTO update(FilmeDTO dto, @PathParam("id") Long id) {
-        Log.info("Atualizando dados de um filme." + dto.getNome());
-        return service.update(dto, id);
+    public Response update(FilmeDTO dto, @PathParam("id") Long id) {
+        try {
+            Log.info("Atualizando dados do filme: " + dto.getNome());
+            FilmeResponseDTO updatedDTO = service.update(dto, id);
+            return Response.ok(updatedDTO).build();
+        } catch (Exception e) {
+            Log.error("Erro ao atualizar o filme: ", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erro ao atualizar o filme.").build();
+        }
     }
 
     @DELETE
     @Transactional
     @Path("/{id}")
     @RolesAllowed({"Admin"})
-    public void delete(@PathParam("id") Long id) {
-        Log.info("Filme deletado.");
-        service.delete(id);
+    public Response delete(@PathParam("id") Long id) {
+        try {
+            Log.info("Deletando o filme com ID: " + id);
+            service.delete(id);
+            return Response.noContent().build();
+        } catch (Exception e) {
+            Log.error("Erro ao deletar o filme: ", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erro ao deletar o filme.").build();
+        }
     }
 
     @GET
-    public Response findAll(){
-        Log.info("Busca de todos os filmes");
-        return Response.ok(service.findByAll()).build();
+    @RolesAllowed({"User", "Admin"})
+    public Response findAll() {
+        try {
+            Log.info("Buscando todos os filmes");
+            return Response.ok(service.findByAll()).build();
+        } catch (Exception e) {
+            Log.error("Erro ao buscar todos os filmes: ", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erro ao buscar os filmes.").build();
+        }
     }
 
     @GET
     @Path("/{id}")
     @RolesAllowed({"Admin"})
-    public Response findById(@PathParam("id") Long id){
-        Log.info("Busca de um filme expecificado pelo id");
-        return Response.ok(service.findById(id)).build();
+    public Response findById(@PathParam("id") Long id) {
+        try {
+            Log.info("Buscando o filme pelo ID: " + id);
+            return Response.ok(service.findById(id)).build();
+        } catch (Exception e) {
+            Log.error("Erro ao buscar o filme pelo ID: ", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erro ao buscar o filme.").build();
+        }
     }
 
     @GET
     @Path("/search/nome/{nome}")
-    public Response findByNome(@PathParam("nome") String nome){
-        Log.info("Busca de uma filme expecificado pelo nome");
-        return Response.ok(service.findByNome(nome)).build();
+    @RolesAllowed({"User", "Admin"})
+    public Response findByNome(@PathParam("nome") String nome) {
+        try {
+            Log.info("Buscando filme pelo nome: " + nome);
+            return Response.ok(service.findByNome(nome)).build();
+        } catch (Exception e) {
+            Log.error("Erro ao buscar o filme pelo nome: ", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erro ao buscar o filme pelo nome.").build();
+        }
     }
 
-    @PATCH
-    @Path("/{id}/image/upload")
-    @RolesAllowed("Admin")
+        @PATCH
+    @Path("/upload/imagem/{id}")
+    @RolesAllowed({"Admin"})
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response upload(@PathParam("id") Long id, @MultipartForm ImageForm form) {
-        // LOG.info("Executando o método upload de imagem para console ");
-        // try {
-        //     fileService.salvar(id, form.getNomeImagem(), form.getImagem());
-        //     Response response = Response.noContent().build();
-        //     LOG.info("Upload realizado com sucesso ");
-        //     return response;
-        // } catch (Exception e){
-        //     LOG.error("Erro ao realizar o método upload() de console ", e);
-        //     return Response.status(Status.NOT_FOUND).entity("Erro ao realizar o método upload() de console ").build();
-        // }
-        fileService.salvar(id, form.getNomeImagem(), form.getImagem());
-        return Response.noContent().build();
+    public Response salvarImagem(@MultipartForm ImageForm form, @PathParam("id") Long id) {
+        try {
+            Log.info("Salvando imagem para a filme com ID: " + id);
+            String nomeImagem = fileService.salvar(form.getNomeImagem(), form.getImagem());
+            FilmeResponseDTO filmeDTO = service.updateNomeImagem(id, nomeImagem);
+            return Response.ok(filmeDTO).build();
+        } catch (IOException e) {
+            Log.error("Erro ao salvar a imagem: ", e);
+            return Response.status(Response.Status.BAD_REQUEST).entity("Erro ao salvar a imagem.").build();
+        } catch (Exception e) {
+            Log.error("Erro ao atualizar os dados da imagem: ", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erro ao atualizar os dados da imagem.").build();
+        }
     }
 
     @GET
-    @Path("/image/download/{nomeImagem}")
-    @RolesAllowed("Admin")
+    @Path("/download/imagem/{nomeImagem}")
+    @RolesAllowed({"User", "Admin"})
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response download(@PathParam("nomeImagem") String nomeImagem) {
-        // LOG.info("Executando o método download de imagem de um console ");
-        // try {
-        //     fileService.download(nomeImagem);
-        //     ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
-        //     response.header("Content-Disposition", "attachment; filename=" + nomeImagem);
-        //     LOG.info("Download realizado com sucesso ");
-        //     LOG.info("Nome da imagem: " + nomeImagem);
-        //     return response.build();
-        // } catch (Exception e){
-        //     LOG.error("Erro ao realizar o método download() de console ", e);
-        //     return Response.status(Status.NOT_FOUND).entity("Erro ao realizar o método download() de console ").build();
-        // }
-        ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
-        response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
-        return response.build();
+        try {
+            Log.info("Baixando a imagem: " + nomeImagem);
+            File imagem = fileService.obter(nomeImagem);
+            if (!imagem.exists()) {
+                return Response.status(Response.Status.NOT_FOUND).entity("Imagem não encontrada.").build();
+            }
+            ResponseBuilder response = Response.ok(imagem);
+            response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
+            return response.build();
+        } catch (Exception e) {
+            Log.error("Erro ao baixar a imagem: ", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Erro ao baixar a imagem.").build();
+        }
     }
     
 

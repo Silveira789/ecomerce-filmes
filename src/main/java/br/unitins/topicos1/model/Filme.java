@@ -21,8 +21,15 @@ public class Filme extends Produto{
     private String direcao;
     @Column(length = 60)
     private String TituloOriginal;
+
+    private String nomeImagem;
+
+    // public String getNomeImagem() {
+    //     return nomeImagem;
+    // }
+
+    // public void setNomeImagem(String nomeImagem) {
+    //     this.nomeImagem = nomeImagem;
+    // }
     
-
-
-
 }

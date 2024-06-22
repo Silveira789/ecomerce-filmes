@@ -22,15 +22,6 @@ public class Produto extends DefaultEntity {
     @Column(length = 400)
     private String descricao;
 
-    private String nomeImagem;
-
-    public String getNomeImagem() {
-        return nomeImagem;
-    }
-
-    public void setNomeImagem(String nomeImagem) {
-        this.nomeImagem = nomeImagem;
-    }
 
 
 }

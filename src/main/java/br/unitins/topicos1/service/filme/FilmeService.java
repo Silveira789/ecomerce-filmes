@@ -13,6 +13,8 @@ public interface FilmeService {
 
     public void delete(Long id);
 
+    public FilmeResponseDTO updateNomeImagem(Long id, String nomeImagem) ;
+
     public FilmeResponseDTO findById(Long id);
 
     public List<FilmeResponseDTO> findByNome(String nome);

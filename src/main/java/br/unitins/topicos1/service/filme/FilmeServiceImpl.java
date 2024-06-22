@@ -21,15 +21,15 @@ public class FilmeServiceImpl implements FilmeService {
     @Transactional
     public FilmeResponseDTO insert(FilmeDTO dto) {
         Filme novoFilme = new Filme();
-            novoFilme.setNome(dto.getNome());
-            novoFilme.setDescricao(dto.getDescricao());
-            novoFilme.setGenero(dto.getGenero());
-            novoFilme.setAnoLancamento(dto.getAnoLancamento());
-            novoFilme.setDirecao(dto.getDirecao());
-            novoFilme.setDuracao(dto.getDuracao());
-            novoFilme.setPreco(dto.getPreco());
-            novoFilme.setQtdNoEstoque(dto.getQtdNoEstoque());
-            novoFilme.setTituloOriginal(dto.getTituloOriginal());
+        novoFilme.setNome(dto.getNome());
+        novoFilme.setDescricao(dto.getDescricao());
+        novoFilme.setGenero(dto.getGenero());
+        novoFilme.setAnoLancamento(dto.getAnoLancamento());
+        novoFilme.setDirecao(dto.getDirecao());
+        novoFilme.setDuracao(dto.getDuracao());
+        novoFilme.setPreco(dto.getPreco());
+        novoFilme.setQtdNoEstoque(dto.getQtdNoEstoque());
+        novoFilme.setTituloOriginal(dto.getTituloOriginal());
 
         repository.persist(novoFilme);
 
@@ -64,7 +64,7 @@ public class FilmeServiceImpl implements FilmeService {
     @Transactional
     public void delete(Long id) {
         if (!repository.deleteById(id))
-            throw new NotFoundException("Arma não encontrada para o ID: " + id);
+            throw new NotFoundException("Filme não encontrada para o ID: " + id);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class FilmeServiceImpl implements FilmeService {
         if (repository.findById(id) != null)
             return FilmeResponseDTO.valueOf(repository.findById(id));
         else {
-            throw new NotFoundException("Arma não encontrada para o ID: " + id);
+            throw new NotFoundException("Filme não encontrada para o ID: " + id);
         }
     }
 
@@ -89,6 +89,13 @@ public class FilmeServiceImpl implements FilmeService {
     public List<FilmeResponseDTO> findByAll() {
         return repository.listAll().stream()
                 .map(p -> FilmeResponseDTO.valueOf(p)).toList();
+    }
+
+    @Override
+    public FilmeResponseDTO updateNomeImagem(Long id, String nomeImagem) {
+        Filme filme = repository.findById(id);
+        filme.setNomeImagem(nomeImagem);
+        return FilmeResponseDTO.valueOf(filme);
     }
 
 }
