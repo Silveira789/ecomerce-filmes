@@ -50,23 +50,13 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     @Transactional
-    public PedidoResponseDTO insert(@Valid PedidoDTO dto) {
-
-        String login = securityIdentity.getPrincipal().getName();
-
-        Cliente clienteAutenticado = clienteRepository.findById(dto.idCliente());
-        if (clienteAutenticado == null) {
-            throw new ValidationException("Buscando Cliente", "Cliente não encontrado");
-        }
-
-        if (!AutenticacaoCliente(login, dto.idCliente())) {
-            throw new ValidationException("Verificando...", "Você não pode fazer o pedido.");
-        }
+    public PedidoResponseDTO insert(@Valid PedidoDTO dto, Long idCliente) {
 
         Pedido pedido = new Pedido();
+        Cliente cliente = clienteRepository.findById(idCliente);
 
         pedido.setDataHora(LocalDateTime.now());
-        pedido.setCliente(clienteAutenticado);
+        pedido.setCliente(cliente);
         pedido.setFormaDePagamento(FormaDePagamento.valueOf(dto.idFormaDePagamento()));
 
         List<ItemPedido> itens = new ArrayList<ItemPedido>();
@@ -100,13 +90,8 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     private double calcularValorTotal(Filme filme, ItemPedido item) {
-        double precoarma = filme.getPreco();
-        return (precoarma * item.getQuantidade());
-    }
-
-    public boolean AutenticacaoCliente(String login, Long idCliente) {
-        Cliente clienteAut = clienteRepository.findByLogin(login);
-        return clienteAut != null && clienteAut.getId().equals(idCliente);
+        double precofilme = filme.getPreco();
+        return (precofilme * item.getQuantidade());
     }
 
     @Override
@@ -136,7 +121,8 @@ public class PedidoServiceImpl implements PedidoService {
     public void alterarStatusPagamento(Long id) {
         Pedido pedido = pedidoRepository.findById(id);
 
-        String nomeCliente = jwt.getName();
+        String login = jwt.getSubject();
+        String nomeCliente = clienteRepository.findByLogin(login).getNome();
 
         if (pedido == null) {
             throw new ValidationException("Buscando Pedido", "O Pedido não foi encontrado");
