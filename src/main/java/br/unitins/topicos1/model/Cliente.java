@@ -17,7 +17,7 @@ import lombok.Setter;
 @Entity
 public class Cliente extends DefaultEntity{
 
-   @Column(length = 60)
+    @Column(length = 60)
     private String nome;
 
     @Column(length = 20)
@@ -26,11 +26,16 @@ public class Cliente extends DefaultEntity{
     @Column(length = 100)
     private String email;
 
+
     @Column(length = 20)
     private List<String> listaTelefones;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "cliente_endereco", joinColumns = @JoinColumn(name = "id_cliente"), inverseJoinColumns = @JoinColumn(name = "id_endereco"))
+    @JoinTable(
+        name = "cliente_endereco",
+         joinColumns = @JoinColumn(name = "id_cliente"),
+          inverseJoinColumns = @JoinColumn(name = "id_endereco")
+    )
     private List<Endereco> listaEnderecos;
 
     @OneToOne

@@ -2,6 +2,7 @@ package br.unitins.topicos1.service.usuario;
 
 import java.util.List;
 
+import br.unitins.topicos1.dto.usuario.AlterarLoginUsuarioDTO;
 import br.unitins.topicos1.dto.usuario.AlterarSenhaUsuarioDTO;
 import br.unitins.topicos1.dto.usuario.UsuarioDTO;
 import br.unitins.topicos1.dto.usuario.UsuarioResponseDTO;
@@ -14,7 +15,8 @@ public interface UsuarioService {
 
     public UsuarioResponseDTO update(UsuarioDTO dto, Long id);
 
-    public UsuarioResponseDTO alterarSenha(AlterarSenhaUsuarioDTO alterarSenhaUsuarioDTO, String login);
+    public UsuarioResponseDTO alterarSenha(AlterarSenhaUsuarioDTO alterarSenhaUsuarioDTO, String senha);
+    public UsuarioResponseDTO alterarLogin(AlterarLoginUsuarioDTO alterarLoginUsuarioDTO, String login);
 
     public void delete(Long id);
 

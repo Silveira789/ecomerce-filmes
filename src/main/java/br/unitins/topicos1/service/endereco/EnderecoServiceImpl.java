@@ -5,6 +5,7 @@ import java.util.List;
 import br.unitins.topicos1.dto.endereco.EnderecoDTO;
 import br.unitins.topicos1.dto.endereco.EnderecoResponseDTO;
 import br.unitins.topicos1.model.Endereco;
+import br.unitins.topicos1.repository.ClienteRepository;
 import br.unitins.topicos1.repository.EnderecoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -18,23 +19,9 @@ public class EnderecoServiceImpl implements EnderecoService {
     @Inject
     EnderecoRepository repository;
 
-    @Override
-    @Transactional
-    public EnderecoResponseDTO insert(EnderecoDTO dto) {
-        Endereco novoEndereco = new Endereco();
-        novoEndereco.setNome(dto.nome());
-        novoEndereco.setEstado(dto.estado());
-        novoEndereco.setCidade(dto.cidade());
-        novoEndereco.setLogradouro(dto.logradouro());
-        novoEndereco.setNumero(dto.numero());
-        novoEndereco.setBairro(dto.bairro());
-        novoEndereco.setComplemento(dto.complemento());
-        novoEndereco.setCep(dto.cep());
+    @Inject
+    ClienteRepository clienteRepository;
 
-        repository.persist(novoEndereco);
-
-        return EnderecoResponseDTO.valueOf(novoEndereco);
-    }
 
     @Override
     @Transactional

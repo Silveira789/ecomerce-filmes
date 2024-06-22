@@ -20,7 +20,7 @@ public class FilmeFileServiceImpl implements FileService{
 
     private final String PATH_USER = System.getProperty("user.home")
             + File.separator + "quarkus"
-            + File.separator + "images"
+            + File.separator + "imagens"
             + File.separator + "filme" + File.separator;
 
     @Inject
@@ -58,7 +58,7 @@ public class FilmeFileServiceImpl implements FileService{
         }
 
         // gerar nome do arquivo
-        String nomeArquivo = UUID.randomUUID().toString()
+        String nomeArquivo = UUID.randomUUID()
                 + "."
                 + mimeType.substring(mimeType.lastIndexOf("/") + 1);
         String path = PATH_USER + nomeArquivo;

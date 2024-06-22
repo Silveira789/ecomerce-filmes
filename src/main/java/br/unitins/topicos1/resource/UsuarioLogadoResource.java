@@ -7,6 +7,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 // import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
+import br.unitins.topicos1.dto.usuario.AlterarLoginUsuarioDTO;
 import br.unitins.topicos1.dto.usuario.AlterarSenhaUsuarioDTO;
 import br.unitins.topicos1.service.usuario.UsuarioService;
 import io.quarkus.logging.Log;
@@ -40,7 +41,7 @@ public class UsuarioLogadoResource {
 
     @GET
     @RolesAllowed({ "User", "Admin" })
-    public Response getUsuario() {
+    public Response getMeuUsuario() {
 
         // Obtendo o login pelo token jwt
         String login = jwt.getSubject();
@@ -49,7 +50,7 @@ public class UsuarioLogadoResource {
         return Response.ok(usuarioService.findByLogin(login)).build();
     }
 
-     @Path("/usuariologado")
+    @Path("/usuariologado/alterarsenha")
     @PUT
     @RolesAllowed({"User", "Admin"})
     public Response putInfos(AlterarSenhaUsuarioDTO senhaUsuarioDTO){
@@ -57,6 +58,17 @@ public class UsuarioLogadoResource {
         Log.info("Pegando o usuario logado string: " + login);
         Log.info("Alterando a senha do usuário logado");
         usuarioService.alterarSenha(senhaUsuarioDTO, login);
+        return Response.noContent().build();
+    }
+
+    @Path("/usuariologado/alterarlogin")
+    @PUT
+    @RolesAllowed({"User", "Admin"})
+    public Response putInfos(AlterarLoginUsuarioDTO loginUsuarioDTO){
+        String login = jwt.getSubject();
+        Log.info("Pegando o usuario logado string: " + login);
+        Log.info("Alterando o login do usuário logado");
+        usuarioService.alterarLogin(loginUsuarioDTO, login);
         return Response.noContent().build();
     }
 

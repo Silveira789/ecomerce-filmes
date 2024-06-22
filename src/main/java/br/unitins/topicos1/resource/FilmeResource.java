@@ -42,7 +42,8 @@ public class FilmeResource {
     @POST
     @RolesAllowed({"Admin"})
     public FilmeResponseDTO insert(FilmeDTO dto) {
-        Log.info("Cadastrando um filme.");
+        Log.info("Cadastrando um filme." + dto.getNome());
+        Log.info(dto);
         return service.insert(dto);
     }
 
@@ -51,7 +52,7 @@ public class FilmeResource {
     @Path("/{id}")
     @RolesAllowed({"Admin"})
     public FilmeResponseDTO update(FilmeDTO dto, @PathParam("id") Long id) {
-        Log.info("Atualizando os dados de um filme.");
+        Log.info("Atualizando dados de um filme." + dto.getNome());
         return service.update(dto, id);
     }
 
@@ -90,16 +91,18 @@ public class FilmeResource {
     @RolesAllowed("Admin")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response upload(@PathParam("id") Long id, @MultipartForm ImageForm form) {
-        LOG.info("Executando o método upload de imagem para console ");
-        try {
-            fileService.salvar(id, form.getNomeImagem(), form.getImagem());
-            Response response = Response.noContent().build();
-            LOG.info("Upload realizado com sucesso ");
-            return response;
-        } catch (Exception e){
-            LOG.error("Erro ao realizar o método upload() de console ", e);
-            return Response.status(Status.NOT_FOUND).entity("Erro ao realizar o método upload() de console ").build();
-        }
+        // LOG.info("Executando o método upload de imagem para console ");
+        // try {
+        //     fileService.salvar(id, form.getNomeImagem(), form.getImagem());
+        //     Response response = Response.noContent().build();
+        //     LOG.info("Upload realizado com sucesso ");
+        //     return response;
+        // } catch (Exception e){
+        //     LOG.error("Erro ao realizar o método upload() de console ", e);
+        //     return Response.status(Status.NOT_FOUND).entity("Erro ao realizar o método upload() de console ").build();
+        // }
+        fileService.salvar(id, form.getNomeImagem(), form.getImagem());
+        return Response.noContent().build();
     }
 
     @GET
@@ -107,18 +110,21 @@ public class FilmeResource {
     @RolesAllowed("Admin")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response download(@PathParam("nomeImagem") String nomeImagem) {
-        LOG.info("Executando o método download de imagem de um console ");
-        try {
-            fileService.download(nomeImagem);
-            ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
-            response.header("Content-Disposition", "attachment; filename=" + nomeImagem);
-            LOG.info("Download realizado com sucesso ");
-            LOG.info("Nome da imagem: " + nomeImagem);
-            return response.build();
-        } catch (Exception e){
-            LOG.error("Erro ao realizar o método download() de console ", e);
-            return Response.status(Status.NOT_FOUND).entity("Erro ao realizar o método download() de console ").build();
-        }
+        // LOG.info("Executando o método download de imagem de um console ");
+        // try {
+        //     fileService.download(nomeImagem);
+        //     ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
+        //     response.header("Content-Disposition", "attachment; filename=" + nomeImagem);
+        //     LOG.info("Download realizado com sucesso ");
+        //     LOG.info("Nome da imagem: " + nomeImagem);
+        //     return response.build();
+        // } catch (Exception e){
+        //     LOG.error("Erro ao realizar o método download() de console ", e);
+        //     return Response.status(Status.NOT_FOUND).entity("Erro ao realizar o método download() de console ").build();
+        // }
+        ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
+        response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
+        return response.build();
     }
     
 

@@ -17,10 +17,14 @@ public record ClienteDTO(
         @NotBlank(message = "O campo 'e-mail' não pode estar em branco")
         @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Email inválido")
         String email,
+        @NotBlank(message = "O campo 'Numero de Registro de Posse ou Porte' não pode estar em branco")
+        String numeroRegistro_posse_porte,
         @NotNull(message = "O campo telefone não pode ficar em branco")
         List<String> listaTelefones,
         @NotNull(message = "O campo enderecos não pode ficar em branco")
         List<EnderecoDTO> listaEnderecos,
-        @NotNull(message = "O campo usuario não pode ficar em branco")
-        Long idUsuario){       
+        @NotNull(message = "O campo login não pode ficar em branco")
+        String login,
+        @NotNull(message = "O campo senha não pode ficar em branco")
+        String senha){       
 }
