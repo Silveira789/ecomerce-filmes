@@ -12,6 +12,7 @@ public record FilmeResponseDTO(
         int duracao,
         String AnoLancamento,
         String direcao,
+        String nomeImagem,
         String TituloOriginal
 
 ) {
@@ -25,6 +26,7 @@ public record FilmeResponseDTO(
                 filme.getDuracao(),
                 filme.getAnoLancamento(),
                 filme.getDirecao(),
+                filme.getNomeImagem(),
                 filme.getTituloOriginal());
 
     }

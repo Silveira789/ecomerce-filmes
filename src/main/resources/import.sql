@@ -123,3 +123,7 @@ VALUES
     (10, 1),
     -- Funcionário Fernanda
     (11, 2);
+
+-- INSERT INTO pedido(status, formaDePagamento, dataHora)
+-- VALUES
+--     (1,3,'2024-06-22 14:30:00');
