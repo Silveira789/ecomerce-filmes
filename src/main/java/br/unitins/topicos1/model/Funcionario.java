@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Funcionario  extends DefaultEntity{
+public class Funcionario extends DefaultEntity{
 
     @Column(length = 60)
     private String nome;

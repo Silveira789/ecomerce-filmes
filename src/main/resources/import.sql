@@ -27,7 +27,7 @@ INSERT INTO cliente (
     cpf, nome, email, listatelefones
 )
 VALUES
-    ('111.111.111-11', 'Guilherme', 'guilherme@example.com', '{"1234567890", "9876543210"}'),
+    ('111.111.111-11', 'Pedro', 'pedro@example.com', '{"1234567890", "9876543210"}'),
     ('222.222.222-22', 'Joao', 'bene@example.com', '{"1234567891", "9876543211"}'),
     ('333.333.333-33', 'Mauro', 'mauro@example.com', '{"1234567892", "9876543212"}'),
     ('444.444.444-44', 'Heitor', 'heitor@example.com', '{"1234567893", "9876543213"}'),
@@ -45,16 +45,12 @@ VALUES
 
 INSERT INTO funcionario (matricula, cpf, telefone, nome, email)
 VALUES
-    ('123456', '111.111.111-11', '123456789', 'Guilherme', 'guilherme@example.com'),
+    ('123456', '111.111.111-22', '123456789', 'Guilherme', 'guilherme@example.com'),
     ('789012', '222.222.222-22', '987654321', 'Fernanda', 'fernanda@example.com');
 
--- INSERT INTO usuario (perfil, login, senha)
--- VALUES
---     (1, 'cliente_guilherme', 'senha_cliente_guilherme'),
---     (1, 'cliente_joao', 'senha_cliente_joao');
 
 INSERT INTO usuario (perfil, login, senha)
-VALUES 
+VALUES
 (1, 'cliente_pedro', 'iI7lNRDd2XHaEHJdEqWfv/+Yg11T/nMHREEPt9ID2Bf3U9xYqq2Vfedyz+YZsTfXIfV13Sl4khIsP9kSF5JXIg=='),
 (1, 'cliente_joao', '0CCUdVl6aTfE5XJzGrP2OAKnoXFJUBUQVouCYz1ebLjNIK4CHbXOHEgpnePX/FBbXmIeWPkQcSbn1hH0g8zqmg=='),
 (1, 'cliente_mauro', 'MDJWphtfdXwlTa9XBXWObkLFpsB2X6bBgzJfdHxR527PdntyvQr34OkxsqTJyCOST5+p6UoGW5VK1YlcEpL2yA=='),
@@ -63,14 +59,15 @@ VALUES
 (1, 'cliente_tales', 'p8ItX6rwwJidND1MpqD3NKUf9RhkTfpPdm1wDSmRo7OCwriDXagTf6l31P7quFczVAyF10e0brn2GTmxkeOHpw=='),
 (1, 'cliente_juliana', 'eXDI83GFbZNX/T98eh7z6w61WBm1j4q4kUvukIaQ0DNf1XOvlrJ8M6H9Fjhc5kMHmfPEe1wg7lFJiucWFf5xZg=='),
 (1, 'cliente_caroline', 'JDc7L22Z7ln94hliWWH0N/mEA99zc7KattFbbr3+IZj6ZNgRQO5BqFtwxiv49oicjPgdH0cqAPnepACgjLqTMg=='),
-(1, 'cliente_luiz', 'GJT+Wolwvp3TaibJtfTCixQ6mXbWOH6Y5M3FWOYCN0Twh+kdjIn5wSD0eVKjqQbhdiue9w8mRPRgbquvOBp3fw==');
--- (2, 'funcionario_guilherme',);
--- (2, 'funcionario_fernanda',);
+(1, 'cliente_luiz', 'GJT+Wolwvp3TaibJtfTCixQ6mXbWOH6Y5M3FWOYCN0Twh+kdjIn5wSD0eVKjqQbhdiue9w8mRPRgbquvOBp3fw=='),
+(2, 'funcionario_guilherme','L0WpYMcAyHlQh44ufLdv2fwBwNuXroJQV/v/URRJOnAwkv3bfJ72YmrkZcXU6QHM7SQOu9vXYhLzm470WLk9uQ=='),
+(2, 'funcionario_fernanda', 'upbb4BOj4aqjfIPE1HXh6EMuJ8C7CewXZsxlsKz9A/f4fVrdWfGaAQcH+YQWnmkkFIPJPa+rUDMa0v6Vk33UwA=='); 
+
 
 
 INSERT INTO cliente_usuario (id_cliente, id_usuario)
-VALUES 
-    -- Cliente Guilherme
+VALUES
+    -- Cliente Pedro
     (1, 1),
     -- Cliente joao
     (2, 2),
@@ -87,15 +84,15 @@ VALUES
     -- Cliente caroline
     (8, 8),
     -- Cliente Luiz
-    (9, 9);
+    (9, 9); 
+    
 
-
--- INSERT INTO funcionario_usuario (id_funcionario, id_usuario)
--- VALUES 
---     -- Funcionário Guilherme
---     (1, 10),
---     -- Funcionário Fernanda
---     (2, 11);
+INSERT INTO funcionario_usuario (id_funcionario, id_usuario)
+VALUES 
+    -- Funcionário Guilherme
+    (1, 10),
+    -- Funcionário Fernanda
+    (2, 11);
 
 
 
@@ -120,3 +117,9 @@ VALUES
     -- Cliente Fernanda
     (9, 9);
 
+INSERT INTO funcionario_endereco (id_endereco, id_funcionario)
+VALUES 
+    -- Funcionário Guilherme
+    (10, 1),
+    -- Funcionário Fernanda
+    (11, 2);
